@@ -1,8 +1,10 @@
 package com.ICM.coordenadasRutaAPI.Services;
 
+import com.ICM.coordenadasRutaAPI.Models.CoordenadasModel;
 import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
 import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
+import com.ICM.coordenadasRutaAPI.Repositories.CoordenadasRepository;
 import com.ICM.coordenadasRutaAPI.Repositories.PaisesRepository;
 import com.ICM.coordenadasRutaAPI.Repositories.RutasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import java.util.Optional;
 public class RutasService {
     @Autowired
     RutasRepository rutasRepository;
+    @Autowired
+    CoordenadasRepository coordenadasRepository;
 
     public List<RutasModel> GetxEmpresa(Long empresa){
         EmpresasModel empresasModel = new EmpresasModel();
@@ -49,6 +53,20 @@ public class RutasService {
     }
 
     public void Delete(Long id){
-        rutasRepository.deleteById(id);
+        Optional<RutasModel> rutaOptional = rutasRepository.findById(id);
+
+    RutasModel ruta = new RutasModel();
+    ruta.setId(id);
+            // Obtén la lista de coordenadas asociadas a la ruta
+            List<CoordenadasModel> coordenadas = coordenadasRepository.findByRutasModel(ruta);
+
+            // Elimina cada coordenada
+            for (CoordenadasModel coordenada : coordenadas) {
+                coordenadasRepository.delete(coordenada);
+            }
+
+            // Luego elimina la ruta
+            rutasRepository.deleteById(id);
+
     }
 }
