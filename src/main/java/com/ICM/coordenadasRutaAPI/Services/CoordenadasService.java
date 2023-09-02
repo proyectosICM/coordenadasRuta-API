@@ -41,7 +41,7 @@ public class CoordenadasService {
             coordenadas.setLatitud(coordenadasModel.getLatitud());
             coordenadas.setLongitud(coordenadasModel.getLongitud());
             coordenadas.setRadio(coordenadasModel.getRadio());
-            coordenadas.setVelocidad(coordenadasModel.getVelocidad());
+            coordenadas.setSonidosVelocidadModel(coordenadasModel.getSonidosVelocidadModel());
             coordenadas.setSonidoVelocidad(coordenadasModel.getSonidoVelocidad());
             coordenadas.setSonidoGeocerca(coordenadasModel.getSonidoGeocerca());
             coordenadas.setRutasModel(coordenadasModel.getRutasModel());

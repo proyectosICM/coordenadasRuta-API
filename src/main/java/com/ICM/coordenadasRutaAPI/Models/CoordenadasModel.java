@@ -24,7 +24,11 @@ public class CoordenadasModel {
     private BigDecimal longitud;
 
     private Integer radio;
-    private Integer velocidad;
+
+    @ManyToOne
+    @JoinColumn(name = "velocidad2", referencedColumnName = "id", nullable = false)
+    private SonidosVelocidadModel sonidosVelocidadModel;
+
     private Integer sonidoVelocidad;
     private Integer sonidoGeocerca;
 
