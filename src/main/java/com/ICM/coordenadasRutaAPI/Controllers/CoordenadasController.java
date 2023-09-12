@@ -18,6 +18,7 @@ import java.util.Optional;
 @RequestMapping("api/coordenadas")
 public class CoordenadasController {
     @Autowired
+
     CoordenadasService coordenadasService;
 
     @GetMapping("/ruta/{ruta}")
