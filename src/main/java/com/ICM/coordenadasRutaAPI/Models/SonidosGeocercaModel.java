@@ -25,4 +25,9 @@ public class SonidosGeocercaModel {
     private String urlImagen;
 
     private String urlSonido;
+
+    @ManyToOne
+    @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
+    private PaisesModel paisesModel;
+
 }

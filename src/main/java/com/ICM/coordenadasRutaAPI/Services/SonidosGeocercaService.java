@@ -1,6 +1,6 @@
 package com.ICM.coordenadasRutaAPI.Services;
 
-import com.ICM.coordenadasRutaAPI.Models.SonidosGeocercaModel;
+import com.ICM.coordenadasRutaAPI.Models.*;
 import com.ICM.coordenadasRutaAPI.Repositories.SonidosGeocercaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,4 +20,20 @@ public class SonidosGeocercaService {
     public Optional<SonidosGeocercaModel> GetById(Long id) {
         return sonidosGeocercaRepository.findById(id);
     }
+
+    public List<SonidosGeocercaModel> GetxPais(Long pais){
+        PaisesModel paisModel = new PaisesModel();
+        paisModel.setId(pais);
+        return sonidosGeocercaRepository.findByPaisesModel(paisModel);
+    }
+
+    public List<SonidosGeocercaModel> GetxPaisxTipoS(Long pais, Long tipoS){
+        PaisesModel paisModel = new PaisesModel();
+        paisModel.setId(pais);
+
+        TipoSModel tipoSModel = new TipoSModel();
+        tipoSModel.setId(tipoS);
+        return sonidosGeocercaRepository.findByPaisesModelAndTipoSModel(paisModel, tipoSModel);
+    }
+
 }
