@@ -35,4 +35,5 @@ public class CoordenadasModel {
     @ManyToOne
     @JoinColumn(name = "ruta", referencedColumnName = "id", nullable = false)
     private RutasModel rutasModel;
+
 }

@@ -27,6 +27,12 @@ public class SonidosGeocercaService {
         return sonidosGeocercaRepository.findByPaisesModel(paisModel);
     }
 
+    public List<SonidosGeocercaModel> GetxTipos(Long tipo){
+        TipoSModel tipoSModel = new TipoSModel();
+        tipoSModel.setId(tipo);
+        return sonidosGeocercaRepository.findByTipoSModel(tipoSModel);
+    }
+
     public List<SonidosGeocercaModel> GetxPaisxTipoS(Long pais, Long tipoS){
         PaisesModel paisModel = new PaisesModel();
         paisModel.setId(pais);
