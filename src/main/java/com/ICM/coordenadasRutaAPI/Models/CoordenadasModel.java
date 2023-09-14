@@ -26,11 +26,12 @@ public class CoordenadasModel {
     private Integer radio;
 
     @ManyToOne
-    @JoinColumn(name = "velocidad2", referencedColumnName = "id", nullable = false)
+    @JoinColumn(name = "velocidad", referencedColumnName = "id", nullable = false)
     private SonidosVelocidadModel sonidosVelocidadModel;
 
-    private Integer sonidoVelocidad;
-    private Integer sonidoGeocerca;
+    @ManyToOne
+    @JoinColumn(name = "geocerca", referencedColumnName = "id", nullable = false)
+    private SonidosGeocercaModel sonidosGeocercaModel;
 
     @ManyToOne
     @JoinColumn(name = "ruta", referencedColumnName = "id", nullable = false)

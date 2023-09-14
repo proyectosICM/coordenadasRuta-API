@@ -30,4 +30,6 @@ public class SonidosGeocercaModel {
     @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
     private PaisesModel paisesModel;
 
+    private Integer codsonido;
+
 }
