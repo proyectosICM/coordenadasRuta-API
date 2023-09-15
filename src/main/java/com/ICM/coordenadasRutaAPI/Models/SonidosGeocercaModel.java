@@ -32,4 +32,6 @@ public class SonidosGeocercaModel {
 
     private Integer codsonido;
 
+    private String detalle;
+
 }
