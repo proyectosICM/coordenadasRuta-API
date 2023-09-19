@@ -1,0 +1,212 @@
+*******************************
+************ SR ***************
+*******************************
+
+// 00010 - Pare
+// 00011 - Ceda el paso
+// 00012 - Siga de frente
+// 00013 - No pase
+// 00014 - Giro permitido
+00015 - Giro no permitido
+/*
+00016 - Giro permitido
+00017 - Giro no permitido
+*/
+00018 - Giro en U permitido
+
+00019 - prohibido girar en u
+// 00020 - doble via
+//00021 - tres carriles (uno en contraflujo)
+//00022 - tres carriles (dos en contraflujo)
+//00023 - prohibido el cambio de calzada
+00024 - circulacion prohibida de vehiculos automotores
+//00025 - vehiculos pesados a la derecha
+00026 - circulacion prohibida de vehiculos de carga
+
+/*
+00027 - Peatones a la izquierda
+00028 - Prohibido el paso de peatones
+*/
+00029 - Prohibido circulacion de cabalgaduras
+/* 00030 - Prohibido circulacion de bicicletas
+// 00031 - prohibido circulacion de motocicleras
+/* 00032 - prohibido circulacion de maquina agricola
+/* 00033 - circulacion prohibida de vehiculo de traccion animal
+ //00034 - prohibido adelantar
+
+//00035 - Prohibido parquear
+//00036 - No parquear ni detenerse
+//00037 - Prohibido pitar
+00038 - Cuidado revise la velocidad máxima permitida
+//00039 - Cuidado revise el peso máxima permitido
+00040 - Cuidado revise la altura máxima permitida
+//00041 - Cuidado revise el ancho máximo permitido
+/* 00042 - Zona de estacionamiento de taxis
+
+/* 00043 - Circulacion con luces bajas
+//00044 - Reten
+//00045 - Ciclovia
+//00046 - Sentido unico de circulacion
+//00047 - Sentido de circulacion doble
+/* 00048 - Paradero
+/* 00049 - Prohibido dejar o recoger pasajeros
+//00050 - Zona de carge y descargue
+
+//00051 - Prohibido el cargue y descargue
+/* 00052 - Espaciamiento
+/* 00053 - Indicacion de separador transito
+00054 - Via cerrada
+//00055 - Desvio
+/* 00056 - Paso uno a uno
+
+*******************************
+************ SP ***************
+*******************************
+
+00057 - Precaucion curva peligrosa 
+00058 - Precaucion curva pronunciada
+00059 - Precaucion curva y contracurva peligrosa
+00060 - Precaucion curvas sucesivas 
+
+00061 - Precaucion curva y contracurva pronunciada 
+//00062 - Precaucion interseccion de vias
+//00063 - Precaucion Via lateral
+/* 00064 - Precaucion Bifurcacion en T
+
+******
+
+/* 00065 - Precaucion Bifucarcion en Y 
+//00066 - Precaucion Bifucarcion 
+
+/* 00067 - Precaucion Bifurcacion Escalonada 
+/* 00068 - Precaucion Glorieta 
+//00069 - Precaucion Incorporacion de transito 
+00070 - Precaucion Semaforo 
+//00071 - Precaucion superficie rizada 
+
+00072 - Precaucion resalto 
+/* 00073 - Precaucion depresion 
+00074 - Precaucion descenso peligroso 
+/*
+00075 - Precaucion reduccion simetrica de la calzada 
+00076 - Precaucion prevencion de pare 
+00077 - Precaucion asimetrica de la calzada 
+00078 - Precaucion ensanche simetrico de la calzada 
+*/
+//00079 - Precaucion prevencion de ceda el paso
+//00080 - Precaucion ensanche asimetrico de la calzada
+//00081 - Precaucion puente angosto
+/* 00082 - Precaucion tunel
+//00083 - Cuidado revise el peso máximo permitido 
+//00084 - Precaucion circulacion en dos sentidos
+//00085 - Precaucion flecha direccional
+
+//00086 - Precaucion tres carriles uno en contraflujo
+00087 - Precaucion zona de derrumbe 
+//00088 - Precaucion tres carriles dos en contraflujo
+00089 - Precaucion superficie deslizante
+//00090 - Precaucion maquinaria agricola en la via
+//00091 - Precaucion peatones en la via
+00092 - Precaucion zona escolar 
+//00093 - Precaucion zona deportiva
+
+/* 00094 - Precaucion animales en la via
+/*
+00095 - Precaucion altura libre
+00096 - Precaucion ancho libre
+*/
+00097 - Precaucion cruce a nivel con el ferrocarril
+/* 00098 - Precaucion barrera 
+
+/*
+00099 - Precaucion paso a nivel
+00100 - Precaucion iniciacion de separador dos sentidos
+00101 - Precaucion iniciacion de separador un sentido
+
+00102 - Precaucion terminacion de via con separador dos sentidos
+00103 - Precaucion terminacion de via con separador un sentido
+*/
+00104 - Precaucion final del pavimento 
+//00105 - Precaucion ciclistas en la via
+00106 - Precaucion riesgos de accidente
+/*
+00107 - Precaucion aproximacion obra en la via
+00108 - Precaucion trabajos en la via
+00109 - Precaucion maquinaria en la via
+00110 - Precaucion banderero
+00111 - Precaucion carril cerrado
+00112 - Precaucion desvio
+*/
+*******************************
+************ SI ***************
+*******************************
+
+00113 - Ruta Nacional
+00114 - Ruta departamental
+00115 - Ruta panamericana
+00116 - Ruta marginal de la selva
+00117 - Poste de referencia
+00118 - Informacion Previa de destino
+00119 - Informativa de decision de destino
+00120 - Croquis
+00121 - Descripcion de giros
+00122 - Confirmativa de destino
+
+00123 - Sitio de parqueo
+00124 - Zonas especiales de paqueo
+00125 - Paradero de buses
+00126 - Estacionamiento de Taxis
+00127 - Transbordador
+00128 - Via para ciclistas
+00129 - Monumento nacional
+00130 - Zona militar
+00131 - Aeropuerto
+
+00132 - Hospedaje
+00133 - Primeros auxilios
+00134 - Servicios Sanitarios
+00135 - Restaurante
+00136 - Telefono
+00137 - Iglesia
+00138 - Taller
+00139 - Estacion de servicio
+00140 - Montallantas
+00141 - Cruce peatonal
+00142 - Discapacitados
+00143 - Nomenclatura urbana
+00144 - Seguro vial
+00145 - Geografica
+
+
+00146 - Transporte Ferroviario
+00147 - Transporte Masivo
+00148 - Zona Recreativa
+00149 - Cambio de moneda
+00150 - Zona de camping
+00151 - Playa
+00152 - Museo
+00153 - Muelle
+00154 - Zoologico
+00155 - Punto de Informacion Turistica
+00156 - Artesanias
+00157 - Bienes Aqueologicos
+00158 - Lago
+00159 - Polideportivo
+00160 - Mirador
+00161 - Alquiler de autos 
+00162 - Atractivo natural
+00163 - Volcan 
+00164 - Nevado
+00165 - Termal
+00166 - Cascada
+00167 - Pesca
+
+00168 - Aproximacion obra en la via
+00169 - Informacion inicio
+00170 - Informacion fin de obra
+00171 - Carril Cerrado
+00172 - Desvio
+
+
+
+

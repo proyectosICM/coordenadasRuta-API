@@ -19,5 +19,5 @@ public class SonidosVelocidadModel {
     private String nombre;
 
     private String sonidoVelocidad;
-
+    private Integer codvel;
 }
