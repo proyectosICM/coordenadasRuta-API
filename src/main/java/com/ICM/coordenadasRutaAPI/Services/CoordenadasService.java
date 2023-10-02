@@ -37,9 +37,12 @@ public class CoordenadasService {
         Optional<CoordenadasModel> existing = coordenadasRepository.findById(id);
         if(existing.isPresent()){
             CoordenadasModel coordenadas = existing.get();
-
+/*
             coordenadas.setLatitud(coordenadasModel.getLatitud());
             coordenadas.setLongitud(coordenadasModel.getLongitud());
+
+ */
+            coordenadas.setCoordenadas(coordenadasModel.getCoordenadas());
             coordenadas.setRadio(coordenadasModel.getRadio());
             coordenadas.setSonidosVelocidadModel(coordenadasModel.getSonidosVelocidadModel());
             coordenadas.setSonidosGeocercaModel(coordenadasModel.getSonidosGeocercaModel());
