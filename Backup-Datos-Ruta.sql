@@ -1,4 +1,4 @@
-
+USE rutaseguradb;
 
 INSERT INTO `empresas` (`id`, `nombre`, `password`, `usuario`) VALUES
 (1, 'ICM', '1234', 'ICM');
@@ -20,5 +20,6 @@ INSERT INTO `sonidos_velocidad` (`id`, `nombre`, `sonido_velocidad`, `codvel`) V
 (5, '60', 'http://localhost/coordenadas-ruta-segura/audios/00006.mp3', 6),
 (6, '70', 'http://localhost/coordenadas-ruta-segura/audios/00007.mp3', 7),
 (7, '80', 'http://localhost/coordenadas-ruta-segura/audios/00008.mp3', 8),
-(8, 'Sin audio de velocidad', 'http://localhost/coordenadas-ruta-segura/audios/00000.mp3', 0);
+(8, 'Sin audio de velocidad', 'http://localhost/coordenadas-ruta-segura/audios/00173.mp3', 0);
+
 
