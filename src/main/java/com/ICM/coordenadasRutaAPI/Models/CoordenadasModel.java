@@ -17,12 +17,6 @@ public class CoordenadasModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
-/*
-    @Column(precision = 20, scale = 15)
-    private BigDecimal latitud;
-    @Column(precision = 20, scale = 15)
-    private BigDecimal longitud;
-*/
 
     private String coordenadas;
     private Integer radio;

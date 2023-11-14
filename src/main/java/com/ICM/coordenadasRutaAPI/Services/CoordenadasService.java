@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 @Service
 public class CoordenadasService {
@@ -30,19 +31,41 @@ public class CoordenadasService {
     }
 
     public CoordenadasModel Save(CoordenadasModel coordenadasModel) {
+        String[] coordenadas = coordenadasModel.getCoordenadas().split(", ");
+
+        // Suponiendo que siempre tienes el formato latitud, longitud
+        String latitud = coordenadas[0].replace(',', '.');
+        String longitud = coordenadas[1].replace(',', '.');
+
+        // Redondear las coordenadas a 7 decimales después de la coma
+        latitud = String.format(Locale.US, "%.7f", Double.parseDouble(latitud));
+        longitud = String.format(Locale.US, "%.7f", Double.parseDouble(longitud));
+
+        // Volver a armar la cadena de coordenadas
+        String coordenadaFormateada = latitud + ", " + longitud;
+
+        // Actualizar la coordenada en el modelo antes de guardar
+        coordenadasModel.setCoordenadas(coordenadaFormateada);
         return coordenadasRepository.save(coordenadasModel);
     }
 
-    public CoordenadasModel Edit(Long id, CoordenadasModel coordenadasModel){
+    public CoordenadasModel Edit(Long id, CoordenadasModel coordenadasModel) {
         Optional<CoordenadasModel> existing = coordenadasRepository.findById(id);
         if(existing.isPresent()){
             CoordenadasModel coordenadas = existing.get();
-/*
-            coordenadas.setLatitud(coordenadasModel.getLatitud());
-            coordenadas.setLongitud(coordenadasModel.getLongitud());
 
- */
-            coordenadas.setCoordenadas(coordenadasModel.getCoordenadas());
+            // Redondear las coordenadas al formato adecuado
+            String[] coordenadasArray = coordenadasModel.getCoordenadas().split(", ");
+            String latitud = coordenadasArray[0].replace(',', '.');
+            String longitud = coordenadasArray[1].replace(',', '.');
+
+            latitud = String.format(Locale.US, "%.7f", Double.parseDouble(latitud));
+            longitud = String.format(Locale.US, "%.7f", Double.parseDouble(longitud));
+
+            // Volver a armar la cadena de coordenadas
+            String coordenadaFormateada = latitud + ", " + longitud;
+
+            coordenadas.setCoordenadas(coordenadaFormateada);
             coordenadas.setRadio(coordenadasModel.getRadio());
             coordenadas.setSonidosVelocidadModel(coordenadasModel.getSonidosVelocidadModel());
             coordenadas.setSonidosGeocercaModel(coordenadasModel.getSonidosGeocercaModel());
