@@ -49,10 +49,11 @@ public class RutasController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-
+/*
     @DeleteMapping("/{id}")
     public ResponseEntity<RutasModel> Delete(@PathVariable Long id){
         rutasService.Delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+    */
 }

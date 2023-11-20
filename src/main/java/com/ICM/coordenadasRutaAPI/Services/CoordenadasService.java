@@ -4,6 +4,8 @@ import com.ICM.coordenadasRutaAPI.Models.CoordenadasModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.Repositories.CoordenadasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,12 +15,26 @@ import java.util.Optional;
 public class CoordenadasService {
     @Autowired
     CoordenadasRepository coordenadasRepository;
-
+/*
     public List<CoordenadasModel> GetxRutas(Long ruta){
         RutasModel rutasModel = new RutasModel();
         rutasModel.setId(ruta);
         return coordenadasRepository.findByRutasModel(rutasModel);
     }
+
+
+ */
+    public Page<CoordenadasModel> GetxRutasP(Long ruta, int pageNumber, int defaultPageSize) {
+        RutasModel rutasModel = new RutasModel();
+        rutasModel.setId(ruta);
+
+        // Si defaultPageSize es menor o igual a 0, se utilizará un tamaño de página predeterminado
+        //int pageSize = defaultPageSize <= 0 ? 10 : defaultPageSize;
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, 15);
+        return coordenadasRepository.findByRutasModel(rutasModel, pageRequest);
+    }
+
 
     //CRUD
 

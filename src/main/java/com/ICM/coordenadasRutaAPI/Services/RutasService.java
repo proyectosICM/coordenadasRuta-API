@@ -52,6 +52,7 @@ public class RutasService {
         return null;
     }
 
+    /*
     public void Delete(Long id){
         Optional<RutasModel> rutaOptional = rutasRepository.findById(id);
 
@@ -67,6 +68,7 @@ public class RutasService {
 
             // Luego elimina la ruta
             rutasRepository.deleteById(id);
-
     }
+
+     */
 }
