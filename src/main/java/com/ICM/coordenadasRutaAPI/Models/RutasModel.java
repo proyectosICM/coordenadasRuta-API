@@ -18,6 +18,8 @@ public class RutasModel {
 
     private String nomruta;
 
+    private Boolean estado;
+
     @ManyToOne
     @JoinColumn(name = "empresa", referencedColumnName = "id", nullable = false)
     private EmpresasModel empresasModel;
@@ -26,5 +28,5 @@ public class RutasModel {
     @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
     private PaisesModel paisesModel;
 
-    private Integer codA;
+    //  private Integer codA;
 }

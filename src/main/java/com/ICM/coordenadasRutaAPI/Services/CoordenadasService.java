@@ -15,7 +15,7 @@ import java.util.Optional;
 public class CoordenadasService {
     @Autowired
     CoordenadasRepository coordenadasRepository;
-/*
+
     public List<CoordenadasModel> GetxRutas(Long ruta){
         RutasModel rutasModel = new RutasModel();
         rutasModel.setId(ruta);
@@ -23,7 +23,7 @@ public class CoordenadasService {
     }
 
 
- */
+
     public Page<CoordenadasModel> GetxRutasP(Long ruta, int pageNumber, int defaultPageSize) {
         RutasModel rutasModel = new RutasModel();
         rutasModel.setId(ruta);
@@ -31,7 +31,7 @@ public class CoordenadasService {
         // Si defaultPageSize es menor o igual a 0, se utilizará un tamaño de página predeterminado
         //int pageSize = defaultPageSize <= 0 ? 10 : defaultPageSize;
 
-        PageRequest pageRequest = PageRequest.of(pageNumber, 15);
+        PageRequest pageRequest = PageRequest.of(pageNumber, 4);
         return coordenadasRepository.findByRutasModel(rutasModel, pageRequest);
     }
 

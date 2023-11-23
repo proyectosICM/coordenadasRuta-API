@@ -21,13 +21,13 @@ public class CoordenadasController {
     @Autowired
 
     CoordenadasService coordenadasService;
-/*
+
     @GetMapping("/ruta/{ruta}")
     public List<CoordenadasModel> GetxCoordenadas(@PathVariable Long ruta) {
         return coordenadasService.GetxRutas(ruta);
     }
 
- */
+
 
     @GetMapping("/cxr/{ruta}")
     public Page<CoordenadasModel> obtenerCoordenadasPaginadas(

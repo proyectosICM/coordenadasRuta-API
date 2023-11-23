@@ -21,9 +21,7 @@ public class RutasService {
     CoordenadasRepository coordenadasRepository;
 
     public List<RutasModel> GetxEmpresa(Long empresa){
-        EmpresasModel empresasModel = new EmpresasModel();
-        empresasModel.setId(empresa);
-        return rutasRepository.findByEmpresasModel(empresasModel);
+        return rutasRepository.findByEmpresasModelIdAndEstado(empresa, true);
     }
 
     //CRUD
@@ -36,6 +34,7 @@ public class RutasService {
         return rutasRepository.findById(id);
     }
 
+
     public RutasModel Save(RutasModel rutasModel) {
         return rutasRepository.save(rutasModel);
     }
@@ -47,6 +46,16 @@ public class RutasService {
             ruta.setNomruta(rutasModel.getNomruta());
             ruta.setEmpresasModel(rutasModel.getEmpresasModel());
             ruta.setPaisesModel(rutasModel.getPaisesModel());
+            return rutasRepository.save(ruta);
+        }
+        return null;
+    }
+
+    public RutasModel Deshabilitar(Long id){
+        Optional<RutasModel> existing = rutasRepository.findById(id);
+        if(existing.isPresent()){
+            RutasModel ruta = existing.get();
+            ruta.setEstado(false);
             return rutasRepository.save(ruta);
         }
         return null;

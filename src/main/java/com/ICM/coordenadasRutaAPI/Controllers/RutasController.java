@@ -49,6 +49,15 @@ public class RutasController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PutMapping("/deshabilitar/{id}")
+    public ResponseEntity<RutasModel> Deshabilitar(@PathVariable Long id){
+        RutasModel eruta = rutasService.Deshabilitar(id);
+        if (eruta!=null){
+            return new ResponseEntity<>(eruta, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 /*
     @DeleteMapping("/{id}")
     public ResponseEntity<RutasModel> Delete(@PathVariable Long id){

@@ -12,4 +12,5 @@ import java.util.List;
 @Repository
 public interface CoordenadasRepository extends JpaRepository<CoordenadasModel, Long> {
    Page<CoordenadasModel> findByRutasModel(RutasModel rutasModel, Pageable pageable);
+   List<CoordenadasModel> findByRutasModel(RutasModel rutasModel);
 }
