@@ -25,7 +25,6 @@ public class RutasService {
     }
 
     //CRUD
-
     public List<RutasModel> Get(){
         return rutasRepository.findAll();
     }
@@ -33,7 +32,6 @@ public class RutasService {
     public Optional<RutasModel> GetById(Long id){
         return rutasRepository.findById(id);
     }
-
 
     public RutasModel Save(RutasModel rutasModel) {
         return rutasRepository.save(rutasModel);
@@ -78,6 +76,5 @@ public class RutasService {
             // Luego elimina la ruta
             rutasRepository.deleteById(id);
     }
-
      */
 }

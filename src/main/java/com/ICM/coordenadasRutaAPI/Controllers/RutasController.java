@@ -1,8 +1,6 @@
 package com.ICM.coordenadasRutaAPI.Controllers;
 
-import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
-import com.ICM.coordenadasRutaAPI.Services.PaisesService;
 import com.ICM.coordenadasRutaAPI.Services.RutasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
