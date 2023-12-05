@@ -10,4 +10,8 @@ import java.util.Optional;
 @Repository
 public interface DispositivosRepository extends JpaRepository<DispositivosModel, Long> {
     Optional<DispositivosModel> findByRutasModelId(Long rutasModelId);
+
+    Optional<DispositivosModel> findByNombreAndEmpresasModelId(String nombre, Long empresaModelId);
+
+    Optional<DispositivosModel> findByNombre(String nombre);
 }

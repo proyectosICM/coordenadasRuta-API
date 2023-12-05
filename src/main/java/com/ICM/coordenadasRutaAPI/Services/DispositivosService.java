@@ -20,6 +20,9 @@ public class DispositivosService {
         return dispositivosRepository.findById(id);
     }
 
+    public Optional<DispositivosModel> findByNombreAndEmpresasModelId(String nombre, Long empresaModelId) {
+        return dispositivosRepository.findByNombreAndEmpresasModelId(nombre, empresaModelId);
+    }
     public DispositivosModel Save(DispositivosModel dispositivosModel) {
         return dispositivosRepository.save(dispositivosModel);
     }

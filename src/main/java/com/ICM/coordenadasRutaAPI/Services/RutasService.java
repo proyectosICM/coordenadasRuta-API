@@ -20,8 +20,8 @@ public class RutasService {
     @Autowired
     CoordenadasRepository coordenadasRepository;
 
-    public List<RutasModel> GetxEmpresa(Long empresa){
-        return rutasRepository.findByEmpresasModelIdAndEstado(empresa, true);
+    public List<RutasModel> GetxEmpresa(Long empresa, Boolean estado){
+        return rutasRepository.findByEmpresasModelIdAndEstado(empresa, estado);
     }
 
     //CRUD

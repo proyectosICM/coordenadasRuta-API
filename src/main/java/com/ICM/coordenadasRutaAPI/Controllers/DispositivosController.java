@@ -29,6 +29,21 @@ public class DispositivosController {
         return new ResponseEntity<>(dispositivos.get(), HttpStatus.OK);
     }
 
+    @GetMapping("/verificar/{nombre}/{empresa}")
+    public ResponseEntity<DispositivosModel> getDispositivoByNombreAndEmpresa(
+            @PathVariable String nombre,
+            @PathVariable Long empresa) {
+
+        Optional<DispositivosModel> dispositivo = dispositivosService.findByNombreAndEmpresasModelId(nombre, empresa);
+
+        if (dispositivo.isPresent()) {
+            return new ResponseEntity<>(dispositivo.get(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @PostMapping
     public ResponseEntity<DispositivosModel> Save(@RequestBody DispositivosModel dispositivosModel){
         DispositivosModel cdispositivos = dispositivosService.Save(dispositivosModel);

@@ -16,9 +16,9 @@ public class RutasController {
     @Autowired
     RutasService rutasService;
 
-    @GetMapping("/xempresa/{empresa}")
-    public List<RutasModel> GetxEmpresa (@PathVariable Long empresa){
-        return rutasService.GetxEmpresa(empresa);
+    @GetMapping("/xempresa/{estado}/{empresa}")
+    public List<RutasModel> GetxEmpresa (@PathVariable Long empresa, @PathVariable Boolean estado){
+        return rutasService.GetxEmpresa(empresa, estado);
     }
 
     //CRUD

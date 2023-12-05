@@ -1,13 +1,18 @@
 package com.ICM.coordenadasRutaAPI.Services;
 
 import com.ICM.coordenadasRutaAPI.Models.CoordenadasModel;
+import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.Repositories.CoordenadasRepository;
+import com.ICM.coordenadasRutaAPI.Repositories.DispositivosRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -15,6 +20,9 @@ import java.util.Optional;
 public class CoordenadasService {
     @Autowired
     CoordenadasRepository coordenadasRepository;
+    @Autowired
+    private DispositivosRepository dispositivosRepository;
+
 
     public List<CoordenadasModel> GetxRutas(Long ruta){
         RutasModel rutasModel = new RutasModel();
@@ -22,6 +30,41 @@ public class CoordenadasService {
         return coordenadasRepository.findByRutasModel(rutasModel);
     }
 
+    /* Para GIAN */
+    public List<CoordenadasModel> GetCoordenadasxDisp(String codigodis){
+        Optional<DispositivosModel> dispositivo = dispositivosRepository.findByNombre(codigodis);
+        Long rutaid = dispositivo.get().getRutasModel().getId();
+        return coordenadasRepository.findByRutasModelId(rutaid);
+    }
+
+    public List<CoordenadasModel> GetCoordenadasxDispID(Long id){
+        Optional<DispositivosModel> dispositivo = dispositivosRepository.findById(id);
+        Long rutaid = dispositivo.get().getRutasModel().getId();
+        return coordenadasRepository.findByRutasModelId(rutaid);
+    }
+
+    public void GetCoordenadasxDispIDAndDownload(Long id, HttpServletResponse response) {
+        Optional<DispositivosModel> dispositivo = dispositivosRepository.findById(id);
+        Long rutaid = dispositivo.get().getRutasModel().getId();
+        List<CoordenadasModel> coordenadas = coordenadasRepository.findByRutasModelId(rutaid);
+
+        try {
+            // Configurar la respuesta para descargar un archivo
+            response.setContentType("text/plain");
+            response.setHeader("Content-Disposition", "attachment; filename=coordenadas.txt");
+
+            // Escribir el contenido en el archivo de texto
+            PrintWriter writer = response.getWriter();
+            for (CoordenadasModel coordenada : coordenadas) {
+                writer.println(coordenada.toString()); // Suponiendo que tienes un método toString en CoordenadasModel
+            }
+            writer.flush();
+        } catch (Exception e) {
+            // Manejo de excepciones
+            e.printStackTrace();
+        }
+    }
+    /* */
 
 
     public Page<CoordenadasModel> GetxRutasP(Long ruta, int pageNumber, int defaultPageSize) {

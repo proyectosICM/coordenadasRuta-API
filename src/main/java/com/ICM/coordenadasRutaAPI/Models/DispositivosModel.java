@@ -21,4 +21,8 @@ public class DispositivosModel {
     @ManyToOne
     @JoinColumn(name = "rutas", referencedColumnName = "id", nullable = true)
     private RutasModel rutasModel;
+
+    @ManyToOne
+    @JoinColumn(name = "empresa", referencedColumnName = "id", nullable = false)
+    private EmpresasModel empresasModel;
 }

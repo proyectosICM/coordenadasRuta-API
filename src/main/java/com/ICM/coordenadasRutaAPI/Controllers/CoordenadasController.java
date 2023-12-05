@@ -5,6 +5,7 @@ import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.Services.CoordenadasService;
 import com.ICM.coordenadasRutaAPI.Services.PaisesService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -27,7 +28,22 @@ public class CoordenadasController {
         return coordenadasService.GetxRutas(ruta);
     }
 
+    /* Para GIAN */
+    @GetMapping("/rutadis/{codigo}")
+    public List<CoordenadasModel> GetxCoordenadasxDisp(@PathVariable String codigo) {
+        return coordenadasService.GetCoordenadasxDisp(codigo);
+    }
 
+    @GetMapping("/rutadisid/{codigo}")
+    public List<CoordenadasModel> GetxCoordenadasxDispId(@PathVariable Long codigo) {
+        return coordenadasService.GetCoordenadasxDispID(codigo);
+    }
+
+    @GetMapping("/download/{id}")
+    public void downloadCoordenadas(@PathVariable Long id, HttpServletResponse response) {
+        coordenadasService.GetCoordenadasxDispIDAndDownload(id, response);
+    }
+    /* */
 
     @GetMapping("/cxr/{ruta}")
     public Page<CoordenadasModel> obtenerCoordenadasPaginadas(
