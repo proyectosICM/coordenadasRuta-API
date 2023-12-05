@@ -5,6 +5,7 @@ import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.Repositories.CoordenadasRepository;
 import com.ICM.coordenadasRutaAPI.Repositories.DispositivosRepository;
+import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTO;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 public class CoordenadasService {
     @Autowired
@@ -56,13 +59,30 @@ public class CoordenadasService {
             // Escribir el contenido en el archivo de texto
             PrintWriter writer = response.getWriter();
             for (CoordenadasModel coordenada : coordenadas) {
-                writer.println(coordenada.toString()); // Suponiendo que tienes un método toString en CoordenadasModel
+                writer.println(coordenada.getCoordenadas() + ", " + coordenada.getRadio() + ", " + coordenada.getSonidosVelocidadModel().getNombre() + ", " + coordenada.getSonidosVelocidadModel().getCodvel() + ", " + coordenada.getSonidosGeocercaModel().getCodsonido());
             }
             writer.flush();
         } catch (Exception e) {
             // Manejo de excepciones
             e.printStackTrace();
         }
+    }
+
+    public List<CoordenadasDTO> GetCoordenadasxDispIDDTO(Long id){
+        Optional<DispositivosModel> dispositivo = dispositivosRepository.findById(id);
+        Long rutaid = dispositivo.get().getRutasModel().getId();
+        List<CoordenadasModel> coordenadas = coordenadasRepository.findByRutasModelId(rutaid);
+
+        // Mapear CoordenadasModel a CoordenadasDTO
+        return coordenadas.stream().map(coordenada -> {
+            CoordenadasDTO dto = new CoordenadasDTO();
+            dto.setCoordenadas(coordenada.getCoordenadas());
+            dto.setRadio(coordenada.getRadio());
+            dto.setNombreSonidoVelocidad(coordenada.getSonidosVelocidadModel().getNombre());
+            dto.setCodvel(coordenada.getSonidosVelocidadModel().getCodvel());
+            dto.setCodsonido(coordenada.getSonidosGeocercaModel().getCodsonido());
+            return dto;
+        }).collect(Collectors.toList());
     }
     /* */
 

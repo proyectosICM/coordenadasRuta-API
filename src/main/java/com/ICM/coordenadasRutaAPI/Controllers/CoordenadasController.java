@@ -3,6 +3,7 @@ package com.ICM.coordenadasRutaAPI.Controllers;
 import com.ICM.coordenadasRutaAPI.Models.CoordenadasModel;
 import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
+import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTO;
 import com.ICM.coordenadasRutaAPI.Services.CoordenadasService;
 import com.ICM.coordenadasRutaAPI.Services.PaisesService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -42,6 +43,11 @@ public class CoordenadasController {
     @GetMapping("/download/{id}")
     public void downloadCoordenadas(@PathVariable Long id, HttpServletResponse response) {
         coordenadasService.GetCoordenadasxDispIDAndDownload(id, response);
+    }
+
+    @GetMapping("/dto/{id}")
+    public List<CoordenadasDTO> getCoordenadasDTO(@PathVariable Long id) {
+        return coordenadasService.GetCoordenadasxDispIDDTO(id);
     }
     /* */
 
