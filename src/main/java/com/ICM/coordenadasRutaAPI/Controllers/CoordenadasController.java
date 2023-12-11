@@ -4,6 +4,7 @@ import com.ICM.coordenadasRutaAPI.Models.CoordenadasModel;
 import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTO;
+import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTOtxt;
 import com.ICM.coordenadasRutaAPI.Services.CoordenadasService;
 import com.ICM.coordenadasRutaAPI.Services.PaisesService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
@@ -63,6 +65,18 @@ public class CoordenadasController {
     ) {
         return coordenadasService.GetxRutasP(ruta, pageNumber, pageSize);
     }
+
+    /* Paginado TXT */
+    @GetMapping("/cxrp/{ruta}")
+    public Page<CoordenadasDTOtxt> obtenerCoordenadasPaginadastxt(
+            @PathVariable Long ruta,
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "4") int pageSize
+    ) {
+        return coordenadasService.GetxRutasPtxt(ruta, pageNumber, pageSize);
+    }
+    /* */
+
     /*  http download chunk */
     @GetMapping("/descargarCoordenadas/{rutaid}")
     public ResponseEntity<InputStreamResource> descargarCoordenadas(@PathVariable Long rutaid) {
@@ -70,9 +84,15 @@ public class CoordenadasController {
         headers.setContentType(MediaType.TEXT_PLAIN);
         headers.setContentDispositionFormData("attachment", "coordenadas.txt");
 
-        InputStream inputStream = coordenadasService.generarArchivosTxt(rutaid);
+        List<InputStream> archivos = coordenadasService.generarArchivosTxt(rutaid);
 
-        return new ResponseEntity<>(new InputStreamResource(inputStream), headers, HttpStatus.OK);
+        // Devolver el primer archivo y quitarlo de la lista
+        if (!archivos.isEmpty()) {
+            InputStream inputStream = archivos.remove(0);
+            return new ResponseEntity<>(new InputStreamResource(inputStream), headers, HttpStatus.OK);
+        }
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
     /* */
     // CRUD

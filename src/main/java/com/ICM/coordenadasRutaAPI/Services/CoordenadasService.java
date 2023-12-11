@@ -6,6 +6,7 @@ import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.Repositories.CoordenadasRepository;
 import com.ICM.coordenadasRutaAPI.Repositories.DispositivosRepository;
 import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTO;
+import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTOtxt;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
@@ -89,36 +91,64 @@ public class CoordenadasService {
     }
 
     /*  http download chunk */
-    public InputStream generarArchivosTxt(Long rutaid) {
+    public List<InputStream> generarArchivosTxt(Long rutaid) {
         List<CoordenadasModel> coordenadas = coordenadasRepository.findByRutasModelId(rutaid);
+        List<InputStream> archivos = new ArrayList<>();
         StringBuilder data = new StringBuilder();
 
+        int counter = 0;
         for (CoordenadasModel coordenada : coordenadas) {
             // Lógica para agregar las coordenadas al StringBuilder
-            data.append(coordenada.getCoordenadas() + ", " + coordenada.getRadio() + ", " + coordenada.getSonidosVelocidadModel().getNombre() + ", "
-                    + coordenada.getSonidosVelocidadModel().getCodvel() + ", " + coordenada.getSonidosGeocercaModel().getCodsonido()).append("\n");
+            data.append(coordenada.getCoordenadas()).append(", ")
+                    .append(coordenada.getRadio()).append(", ")
+                    .append(coordenada.getSonidosVelocidadModel().getNombre()).append(", ")
+                    .append(coordenada.getSonidosVelocidadModel().getCodvel()).append(", ")
+                    .append(coordenada.getSonidosGeocercaModel().getCodsonido()).append("\n");
 
-            // Si la longitud del contenido supera los 256 bytes, genera un archivo y reinicia el contenido
-            if (data.toString().getBytes().length > 200) {
-                try {
-                    byte[] byteArray = data.toString().getBytes();
-                    return new ByteArrayInputStream(byteArray);
-                } finally {
-                    data = new StringBuilder();
-                }
+            counter++;
+
+            // Si se alcanza el límite de coordenadas por archivo o el tamaño máximo del archivo
+            if (counter >= 6 || data.toString().getBytes().length > 200) {
+                byte[] byteArray = data.toString().getBytes();
+                archivos.add(new ByteArrayInputStream(byteArray));
+                data = new StringBuilder();
+                counter = 0;
             }
         }
 
-        // Enviar el resto de las coordenadas
+        // Si hay datos restantes que no se han guardado en un archivo
         if (data.length() > 0) {
-            return new ByteArrayInputStream(data.toString().getBytes());
+            archivos.add(new ByteArrayInputStream(data.toString().getBytes()));
         }
 
-        return null;
+        return archivos;
     }
     /* */
 
+    /* Paginado TXT */
+    public Page<CoordenadasDTOtxt> GetxRutasPtxt(Long ruta, int pageNumber, int defaultPageSize) {
+        RutasModel rutasModel = new RutasModel();
+        rutasModel.setId(ruta);
 
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, defaultPageSize);
+        Page<CoordenadasModel> coordenadasPage = coordenadasRepository.findByRutasModel(rutasModel, pageRequest);
+
+        return coordenadasPage.map(coordenadaModel -> {
+            CoordenadasDTOtxt coordenadasDTOtxt = new CoordenadasDTOtxt();
+            // Mapea los valores desde coordenadaModel a coordenadasDTOtxt
+            // Por ejemplo:
+            coordenadasDTOtxt.setCoordenadas(coordenadaModel.getCoordenadas());
+            coordenadasDTOtxt.setRdo(coordenadaModel.getRadio());
+            coordenadasDTOtxt.setNsv(coordenadaModel.getSonidosVelocidadModel().getNombre());
+            coordenadasDTOtxt.setCodv(coordenadaModel.getSonidosVelocidadModel().getCodvel());
+            coordenadasDTOtxt.setCods(coordenadaModel.getSonidosGeocercaModel().getCodsonido());
+            // ... resto de mapeo de atributos ...
+
+            return coordenadasDTOtxt;
+        });
+    }
+
+    /* */
     public Page<CoordenadasModel> GetxRutasP(Long ruta, int pageNumber, int defaultPageSize) {
         RutasModel rutasModel = new RutasModel();
         rutasModel.setId(ruta);
