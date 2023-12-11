@@ -17,8 +17,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,6 +76,45 @@ public class CoordenadasController {
             @RequestParam(defaultValue = "4") int pageSize
     ) {
         return coordenadasService.GetxRutasPtxt(ruta, pageNumber, pageSize);
+    }
+
+    @GetMapping("/cxrp/{ruta}/download")
+    public ResponseEntity<Object> descargarCoordenadasTxt(
+            @PathVariable Long ruta,
+            @RequestParam(defaultValue = "1") int pageNumber,
+            @RequestParam(defaultValue = "4") int pageSize
+    ) {
+        Page<CoordenadasDTOtxt> coordenadasPage = coordenadasService.GetxRutasPtxt(ruta, pageNumber, pageSize);
+
+        // Convertir las coordenadas a un archivo de texto
+        String contenidoTxt = convertirCoordenadasAString(coordenadasPage);
+
+        InputStream inputStream = new ByteArrayInputStream(contenidoTxt.getBytes(StandardCharsets.UTF_8));
+
+        InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=coordenadas.txt");
+
+        return ResponseEntity.ok()
+                .headers(headers)
+                .contentType(MediaType.parseMediaType("text/plain"))
+                .body(inputStreamResource);
+    }
+
+    private String convertirCoordenadasAString(Page<CoordenadasDTOtxt> coordenadasPage) {
+        // Lógica para convertir las coordenadas a un formato de texto
+        // Aquí puedes usar StringBuilder u otras formas de formatear el texto
+        // Ejemplo básico:
+        StringBuilder stringBuilder = new StringBuilder();
+        coordenadasPage.forEach(coordenada -> {
+            stringBuilder.append("Coordenadas: ").append(coordenada.getCoordenadas()).append("\n");
+            stringBuilder.append("RDO: ").append(coordenada.getRdo()).append("\n");
+            stringBuilder.append("NSV: ").append(coordenada.getNsv()).append("\n");
+            stringBuilder.append("CODV: ").append(coordenada.getCodv()).append("\n");
+            stringBuilder.append("CODS: ").append(coordenada.getCods()).append("\n\n");
+        });
+        return stringBuilder.toString();
     }
     /* */
 
