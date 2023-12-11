@@ -32,6 +32,19 @@ public class DispositivosService {
         if(existing.isPresent()){
             DispositivosModel dispositivo = existing.get();
             dispositivo.setNombre(dispositivosModel.getNombre());
+            dispositivo.setRutasModel(dispositivosModel.getRutasModel());
+            dispositivo.setEmpresasModel(dispositivosModel.getEmpresasModel());
+            return dispositivosRepository.save(dispositivo);
+        }
+        return null;
+    }
+
+    public DispositivosModel ReasignarRuta(Long id, DispositivosModel dispositivosModel){
+        Optional<DispositivosModel> existing = dispositivosRepository.findById(id);
+        if(existing.isPresent()){
+            DispositivosModel dispositivo = existing.get();
+            dispositivo.setRutasModel(dispositivosModel.getRutasModel());
+            dispositivo.setEmpresasModel(dispositivosModel.getEmpresasModel());
             return dispositivosRepository.save(dispositivo);
         }
         return null;

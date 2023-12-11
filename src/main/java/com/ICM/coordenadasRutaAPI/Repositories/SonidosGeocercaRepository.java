@@ -12,6 +12,5 @@ import java.util.List;
 public interface SonidosGeocercaRepository extends JpaRepository<SonidosGeocercaModel, Long> {
     List<SonidosGeocercaModel> findByPaisesModel(PaisesModel paisesModel);
     List<SonidosGeocercaModel> findByTipoSModel(TipoSModel tipoSModel);
-
     List<SonidosGeocercaModel> findByPaisesModelAndTipoSModel(PaisesModel paisesModel, TipoSModel tipoSModel);
 }

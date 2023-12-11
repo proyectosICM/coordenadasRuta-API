@@ -59,6 +59,15 @@ public class DispositivosController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @PutMapping("/reasignar/{id}")
+    public ResponseEntity<DispositivosModel> ReasignarRuta(@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
+        DispositivosModel edispositivos = dispositivosService.ReasignarRuta(id, dispositivosModel);
+        if (edispositivos!=null){
+            return new ResponseEntity<>(edispositivos, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<DispositivosModel> Delete(@PathVariable Long id){
         dispositivosService.Delete(id);

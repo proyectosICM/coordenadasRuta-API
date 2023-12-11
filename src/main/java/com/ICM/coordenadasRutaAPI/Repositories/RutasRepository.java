@@ -11,6 +11,5 @@ import java.util.List;
 @Repository
 public interface RutasRepository extends JpaRepository<RutasModel, Long> {
     List<RutasModel> findByEmpresasModel(EmpresasModel empresasModel);
-
     List<RutasModel> findByEmpresasModelIdAndEstado(Long idempresa, Boolean estado);
 }

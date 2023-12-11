@@ -8,11 +8,15 @@ import com.ICM.coordenadasRutaAPI.Services.CoordenadasService;
 import com.ICM.coordenadasRutaAPI.Services.PaisesService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,7 +63,18 @@ public class CoordenadasController {
     ) {
         return coordenadasService.GetxRutasP(ruta, pageNumber, pageSize);
     }
+    /*  http download chunk */
+    @GetMapping("/descargarCoordenadas/{rutaid}")
+    public ResponseEntity<InputStreamResource> descargarCoordenadas(@PathVariable Long rutaid) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.TEXT_PLAIN);
+        headers.setContentDispositionFormData("attachment", "coordenadas.txt");
 
+        InputStream inputStream = coordenadasService.generarArchivosTxt(rutaid);
+
+        return new ResponseEntity<>(new InputStreamResource(inputStream), headers, HttpStatus.OK);
+    }
+    /* */
     // CRUD
 
     @GetMapping

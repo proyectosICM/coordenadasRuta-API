@@ -13,6 +13,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.util.List;
 import java.util.Locale;
@@ -59,7 +61,8 @@ public class CoordenadasService {
             // Escribir el contenido en el archivo de texto
             PrintWriter writer = response.getWriter();
             for (CoordenadasModel coordenada : coordenadas) {
-                writer.println(coordenada.getCoordenadas() + ", " + coordenada.getRadio() + ", " + coordenada.getSonidosVelocidadModel().getNombre() + ", " + coordenada.getSonidosVelocidadModel().getCodvel() + ", " + coordenada.getSonidosGeocercaModel().getCodsonido());
+                writer.println(coordenada.getCoordenadas() + ", " + coordenada.getRadio() + ", " + coordenada.getSonidosVelocidadModel().getNombre()
+                        + ", " + coordenada.getSonidosVelocidadModel().getCodvel() + ", " + coordenada.getSonidosGeocercaModel().getCodsonido());
             }
             writer.flush();
         } catch (Exception e) {
@@ -83,6 +86,35 @@ public class CoordenadasService {
             dto.setCodsonido(coordenada.getSonidosGeocercaModel().getCodsonido());
             return dto;
         }).collect(Collectors.toList());
+    }
+
+    /*  http download chunk */
+    public InputStream generarArchivosTxt(Long rutaid) {
+        List<CoordenadasModel> coordenadas = coordenadasRepository.findByRutasModelId(rutaid);
+        StringBuilder data = new StringBuilder();
+
+        for (CoordenadasModel coordenada : coordenadas) {
+            // Lógica para agregar las coordenadas al StringBuilder
+            data.append(coordenada.getCoordenadas() + ", " + coordenada.getRadio() + ", " + coordenada.getSonidosVelocidadModel().getNombre() + ", "
+                    + coordenada.getSonidosVelocidadModel().getCodvel() + ", " + coordenada.getSonidosGeocercaModel().getCodsonido()).append("\n");
+
+            // Si la longitud del contenido supera los 256 bytes, genera un archivo y reinicia el contenido
+            if (data.toString().getBytes().length > 200) {
+                try {
+                    byte[] byteArray = data.toString().getBytes();
+                    return new ByteArrayInputStream(byteArray);
+                } finally {
+                    data = new StringBuilder();
+                }
+            }
+        }
+
+        // Enviar el resto de las coordenadas
+        if (data.length() > 0) {
+            return new ByteArrayInputStream(data.toString().getBytes());
+        }
+
+        return null;
     }
     /* */
 

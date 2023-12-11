@@ -27,7 +27,5 @@ public class RutasModel {
     @ManyToOne
     @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
     private PaisesModel paisesModel;
-    
 
-    //  private Integer codA;
 }

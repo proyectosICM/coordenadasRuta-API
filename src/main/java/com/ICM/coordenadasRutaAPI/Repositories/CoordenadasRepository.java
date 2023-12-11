@@ -15,6 +15,5 @@ import java.util.Optional;
 public interface CoordenadasRepository extends JpaRepository<CoordenadasModel, Long> {
    Page<CoordenadasModel> findByRutasModel(RutasModel rutasModel, Pageable pageable);
    List<CoordenadasModel> findByRutasModel(RutasModel rutasModel);
-
    List<CoordenadasModel> findByRutasModelId(Long rutasModelId);
 }
