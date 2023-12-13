@@ -78,13 +78,13 @@ public class CoordenadasController {
         return coordenadasService.GetxRutasPtxt(ruta, pageNumber, pageSize);
     }
 
-    @GetMapping("/cxrp/{ruta}/download")
+    @GetMapping("/cxrp/{dispositivo}/download")
     public ResponseEntity<Object> descargarCoordenadasTxt(
-            @PathVariable Long ruta,
+            @PathVariable Long dispositivo,
             @RequestParam(defaultValue = "1") int pageNumber,
             @RequestParam(defaultValue = "4") int pageSize
     ) {
-        Page<CoordenadasDTOtxt> coordenadasPage = coordenadasService.GetxRutasPtxt(ruta, pageNumber, pageSize);
+        Page<CoordenadasDTOtxt> coordenadasPage = coordenadasService.GetxRutasPtxt(dispositivo, pageNumber, pageSize);
 
         // Convertir las coordenadas a un archivo de texto
         String contenidoTxt = convertirCoordenadasAString(coordenadasPage);
@@ -103,19 +103,17 @@ public class CoordenadasController {
     }
 
     private String convertirCoordenadasAString(Page<CoordenadasDTOtxt> coordenadasPage) {
-        // Lógica para convertir las coordenadas a un formato de texto
-        // Aquí puedes usar StringBuilder u otras formas de formatear el texto
-        // Ejemplo básico:
         StringBuilder stringBuilder = new StringBuilder();
         coordenadasPage.forEach(coordenada -> {
-            stringBuilder.append("Coordenadas: ").append(coordenada.getCoordenadas()).append("\n");
-            stringBuilder.append("RDO: ").append(coordenada.getRdo()).append("\n");
-            stringBuilder.append("NSV: ").append(coordenada.getNsv()).append("\n");
-            stringBuilder.append("CODV: ").append(coordenada.getCodv()).append("\n");
-            stringBuilder.append("CODS: ").append(coordenada.getCods()).append("\n\n");
+            stringBuilder.append(coordenada.getCoordenadas()).append(", ");
+            stringBuilder.append(coordenada.getRdo()).append(", ");
+            stringBuilder.append(coordenada.getNsv()).append(", ");
+            stringBuilder.append(coordenada.getCodv()).append(", ");
+            stringBuilder.append(coordenada.getCods()).append("\n");
         });
         return stringBuilder.toString();
     }
+
     /* */
 
     /*  http download chunk */

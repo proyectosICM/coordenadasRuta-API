@@ -17,28 +17,44 @@ public class RutasController {
     RutasService rutasService;
 
     @GetMapping("/xempresa/{estado}/{empresa}")
-    public List<RutasModel> GetxEmpresa (@PathVariable Long empresa, @PathVariable Boolean estado){
-        return rutasService.GetxEmpresa(empresa, estado);
+    public ResponseEntity<List<RutasModel>> GetxEmpresa (@PathVariable Long empresa, @PathVariable Boolean estado){
+        List<RutasModel> data = rutasService.GetxEmpresa(empresa, estado);
+        if(data.isEmpty()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(data);
     }
 
-    //CRUD
+    // This controller retrieves all data from the RutasModel
     @GetMapping
-    public List<RutasModel> GetAll (){
-        return rutasService.Get();
+    public ResponseEntity<List<RutasModel>> GetAll (){
+
+        List<RutasModel> data =  rutasService.Get();
+
+        if (data.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(data);
     }
 
+    // Retrieves data for a given ID input
     @GetMapping("/{id}")
     public ResponseEntity<RutasModel> GetById(@PathVariable Long id){
-        Optional<RutasModel> rutas = rutasService.GetById(id);
-        return new ResponseEntity<>(rutas.get(), HttpStatus.OK);
+        Optional<RutasModel> data  = rutasService.GetById(id);
+
+        return data.map(response -> ResponseEntity.ok(response))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    // This controller creates a new RutasModel data
     @PostMapping
     public ResponseEntity<RutasModel> Save(@RequestBody RutasModel paisesModel){
         RutasModel cruta = rutasService.Save(paisesModel);
         return new ResponseEntity<>(cruta, HttpStatus.CREATED);
     }
 
+    // This controller edits a specific data of RutasModel
     @PutMapping("/{id}")
     public ResponseEntity<RutasModel> Edit(@PathVariable Long id, @RequestBody RutasModel rutasModel){
         RutasModel eruta = rutasService.Edit(id, rutasModel);
@@ -48,6 +64,7 @@ public class RutasController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+
     @PutMapping("/deshabilitar/{id}")
     public ResponseEntity<RutasModel> Deshabilitar(@PathVariable Long id){
         RutasModel eruta = rutasService.Deshabilitar(id);
@@ -56,11 +73,11 @@ public class RutasController {
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-/*
+
     @DeleteMapping("/{id}")
     public ResponseEntity<RutasModel> Delete(@PathVariable Long id){
         rutasService.Delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-    */
+
 }

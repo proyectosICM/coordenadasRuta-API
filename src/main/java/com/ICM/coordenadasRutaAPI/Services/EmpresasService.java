@@ -22,6 +22,13 @@ public class EmpresasService {
         return empresa.orElse(null); // Devuelve la empresa si se encuentra, o null si no
     }
 
+    public Optional<EmpresasModel> FindByNombre(String nombre){
+        return empresasRepository.findByNombre(nombre);
+    }
+
+    public Optional<EmpresasModel> FindByUsuario(String usuario){
+        return empresasRepository.findByUsuario(usuario);
+    }
 
     //Crud
 

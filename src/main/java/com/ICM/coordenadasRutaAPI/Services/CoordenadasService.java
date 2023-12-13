@@ -126,9 +126,14 @@ public class CoordenadasService {
     /* */
 
     /* Paginado TXT */
-    public Page<CoordenadasDTOtxt> GetxRutasPtxt(Long ruta, int pageNumber, int defaultPageSize) {
+    public Page<CoordenadasDTOtxt> GetxRutasPtxt(Long dispositivo, int pageNumber, int defaultPageSize) {
+
+        Optional<DispositivosModel> disp = dispositivosRepository.findById(dispositivo);
+
+
         RutasModel rutasModel = new RutasModel();
-        rutasModel.setId(ruta);
+
+        rutasModel.setId(disp.get().getRutasModel().getId());
 
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, defaultPageSize);
         Page<CoordenadasModel> coordenadasPage = coordenadasRepository.findByRutasModel(rutasModel, pageRequest);

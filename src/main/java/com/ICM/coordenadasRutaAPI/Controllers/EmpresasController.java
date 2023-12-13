@@ -27,6 +27,20 @@ public class EmpresasController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
+    @GetMapping("/findNombre/{nombre}")
+    public ResponseEntity<String> FindByNombre(@PathVariable String nombre){
+        Optional<EmpresasModel> data = empresasService.FindByNombre(nombre);
+        return data.map(response -> ResponseEntity.ok("Ya está en uso ese nombre"))
+                .orElseGet(()-> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/findUsuario/{usuario}")
+    public ResponseEntity<String> FindByUsuario(@PathVariable String usuario){
+        Optional<EmpresasModel> data = empresasService.FindByUsuario(usuario);
+        return data.map(response -> ResponseEntity.ok("El usuario ya se encuentra en uso"))
+                .orElseGet(()-> ResponseEntity.notFound().build());
+    }
+
     //CRUD
 
     @GetMapping
@@ -36,8 +50,9 @@ public class EmpresasController {
 
     @GetMapping("/{id}")
     public ResponseEntity<EmpresasModel> GetById(@PathVariable Long id){
-        Optional<EmpresasModel> empresas = empresasService.GetById(id);
-        return new ResponseEntity<>(empresas.get(), HttpStatus.OK);
+        Optional<EmpresasModel> data = empresasService.GetById(id);
+        return data.map(response -> ResponseEntity.ok(response))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping

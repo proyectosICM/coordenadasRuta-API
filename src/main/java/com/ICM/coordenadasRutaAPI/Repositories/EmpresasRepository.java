@@ -10,4 +10,6 @@ import java.util.Optional;
 
 public interface EmpresasRepository extends JpaRepository<EmpresasModel, Long> {
     Optional<EmpresasModel> findByUsuarioAndPassword(String usuario, String password);
+    Optional<EmpresasModel> findByNombre(String nombre);
+    Optional<EmpresasModel> findByUsuario(String usuario);
 }

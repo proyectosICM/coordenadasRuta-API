@@ -1,6 +1,5 @@
 package com.ICM.coordenadasRutaAPI.Controllers;
 
-import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.Models.SonidosVelocidadModel;
 import com.ICM.coordenadasRutaAPI.Services.SonidosVelocidadService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +18,26 @@ import java.util.Optional;
 public class SonidosVelocidadController {
     @Autowired
     SonidosVelocidadService sonidosVelocidadService;
+
+    // This controller retrieves all data from the SonidosVelocidadModel
     @GetMapping
-    public List<SonidosVelocidadModel> GetAll (){
-        return sonidosVelocidadService.Get();
+    public ResponseEntity<List<SonidosVelocidadModel>> GetAll (){
+
+        List<SonidosVelocidadModel> data =  sonidosVelocidadService.Get();
+
+        if(data.isEmpty()){
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(data);
     }
 
+    // Retrieves data for a given ID input
     @GetMapping("/{id}")
     public ResponseEntity<SonidosVelocidadModel> GetById(@PathVariable Long id){
-        Optional<SonidosVelocidadModel> svelocidad = sonidosVelocidadService.GetById(id);
-        return new ResponseEntity<>(svelocidad.get(), HttpStatus.OK);
+        Optional<SonidosVelocidadModel> data = sonidosVelocidadService.GetById(id);
+
+        return data.map(response -> ResponseEntity.ok(response))
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }
