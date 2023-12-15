@@ -130,7 +130,6 @@ public class CoordenadasService {
 
         Optional<DispositivosModel> disp = dispositivosRepository.findById(dispositivo);
 
-
         RutasModel rutasModel = new RutasModel();
 
         rutasModel.setId(disp.get().getRutasModel().getId());
@@ -161,7 +160,7 @@ public class CoordenadasService {
         // Si defaultPageSize es menor o igual a 0, se utilizará un tamaño de página predeterminado
         //int pageSize = defaultPageSize <= 0 ? 10 : defaultPageSize;
 
-        PageRequest pageRequest = PageRequest.of(pageNumber, 4);
+        PageRequest pageRequest = PageRequest.of(pageNumber, 7);
         return coordenadasRepository.findByRutasModel(rutasModel, pageRequest);
     }
 

@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.cglib.core.Local;
+
+import java.time.LocalDate;
 
 @Data
 @NoArgsConstructor
@@ -27,5 +30,11 @@ public class RutasModel {
     @ManyToOne
     @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
     private PaisesModel paisesModel;
+
+    @Column(nullable = true)
+    private LocalDate diadeshabilitacion;
+
+    @Column(nullable = true)
+    private LocalDate diaeliminacion;
 
 }

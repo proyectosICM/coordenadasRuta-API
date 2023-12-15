@@ -3,6 +3,7 @@ package com.ICM.coordenadasRutaAPI.Controllers;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.Services.RutasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,19 @@ public class RutasController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(data);
+    }
+
+    @GetMapping("/xempresaP/{estado}/{empresa}")
+    public ResponseEntity<Object> GetxEmpresaP(@PathVariable Long empresa, @PathVariable Boolean estado,
+                                               @RequestParam(defaultValue = "1") int pageNumber,
+                                               @RequestParam(defaultValue = "6") int pageSize) {
+        Page<RutasModel> data = rutasService.GetxEmpresaP(empresa, estado, pageNumber, pageSize);
+
+        if (data != null && !data.isEmpty()) {
+            return ResponseEntity.ok(data);
+        } else {
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("No se encontraron datos");
+        }
     }
 
     // This controller retrieves all data from the RutasModel
@@ -68,6 +82,15 @@ public class RutasController {
     @PutMapping("/deshabilitar/{id}")
     public ResponseEntity<RutasModel> Deshabilitar(@PathVariable Long id){
         RutasModel eruta = rutasService.Deshabilitar(id);
+        if (eruta!=null){
+            return new ResponseEntity<>(eruta, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PutMapping("/habilitar/{id}")
+    public ResponseEntity<RutasModel> Habilitar(@PathVariable Long id){
+        RutasModel eruta = rutasService.Habilitar(id);
         if (eruta!=null){
             return new ResponseEntity<>(eruta, HttpStatus.OK);
         }

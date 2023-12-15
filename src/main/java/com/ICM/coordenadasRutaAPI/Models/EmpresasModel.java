@@ -19,4 +19,6 @@ public class EmpresasModel {
     private String nombre;
     private String usuario;
     private String password;
+
+
 }

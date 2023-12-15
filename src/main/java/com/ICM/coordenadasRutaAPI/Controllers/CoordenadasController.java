@@ -63,7 +63,7 @@ public class CoordenadasController {
     public Page<CoordenadasModel> obtenerCoordenadasPaginadas(
             @PathVariable Long ruta,
             @RequestParam(defaultValue = "1")  int pageNumber,
-            @RequestParam(defaultValue = "4") int pageSize
+            @RequestParam(defaultValue = "10") int pageSize
     ) {
         return coordenadasService.GetxRutasP(ruta, pageNumber, pageSize);
     }
