@@ -16,4 +16,5 @@ public interface CoordenadasRepository extends JpaRepository<CoordenadasModel, L
    Page<CoordenadasModel> findByRutasModel(RutasModel rutasModel, Pageable pageable);
    List<CoordenadasModel> findByRutasModel(RutasModel rutasModel);
    List<CoordenadasModel> findByRutasModelId(Long rutasModelId);
+   Integer countByRutasModel(RutasModel rutasModel);
 }

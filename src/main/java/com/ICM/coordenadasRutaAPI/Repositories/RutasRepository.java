@@ -1,6 +1,5 @@
 package com.ICM.coordenadasRutaAPI.Repositories;
 
-import com.ICM.coordenadasRutaAPI.Models.CoordenadasModel;
 import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import org.springframework.data.domain.Page;

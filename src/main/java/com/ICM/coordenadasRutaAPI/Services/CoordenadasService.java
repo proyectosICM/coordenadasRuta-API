@@ -10,6 +10,7 @@ import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTOtxt;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -157,11 +158,26 @@ public class CoordenadasService {
         RutasModel rutasModel = new RutasModel();
         rutasModel.setId(ruta);
 
-        // Si defaultPageSize es menor o igual a 0, se utilizará un tamaño de página predeterminado
-        //int pageSize = defaultPageSize <= 0 ? 10 : defaultPageSize;
+        // Obtener el número total de elementos para la ruta
+        Integer totalElements = coordenadasRepository.countByRutasModel(rutasModel);
 
-        PageRequest pageRequest = PageRequest.of(pageNumber, 7);
-        return coordenadasRepository.findByRutasModel(rutasModel, pageRequest);
+
+        System.out.println("Cantidad de elementos: " + totalElements);
+        System.out.println("Tamaño de página: " + defaultPageSize);
+
+        PageRequest pageRequest = PageRequest.of(pageNumber, 6);
+        if (totalElements <= defaultPageSize) {
+            return new PageImpl<>(coordenadasRepository.findByRutasModel(rutasModel));
+        } else {
+            int start = (int) pageRequest.getOffset();
+            int end = Math.min(start + pageRequest.getPageSize(), totalElements);
+            if (start > totalElements) {
+                return Page.empty();
+            }
+
+            Page<CoordenadasModel> elements = coordenadasRepository.findByRutasModel(rutasModel, pageRequest);
+            return coordenadasRepository.findByRutasModel(rutasModel, pageRequest);
+        }
     }
 
 

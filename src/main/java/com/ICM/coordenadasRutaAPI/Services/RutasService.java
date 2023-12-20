@@ -1,11 +1,8 @@
 package com.ICM.coordenadasRutaAPI.Services;
 
 import com.ICM.coordenadasRutaAPI.Models.CoordenadasModel;
-import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
-import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.Repositories.CoordenadasRepository;
-import com.ICM.coordenadasRutaAPI.Repositories.PaisesRepository;
 import com.ICM.coordenadasRutaAPI.Repositories.RutasRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -31,7 +28,7 @@ public class RutasService {
     public Page<RutasModel> GetxEmpresaP(Long empresa, Boolean estado, int pageNumber, int defaultPageSize){
         List<RutasModel> data = rutasRepository.findByEmpresasModelIdAndEstado(empresa, estado);
 
-        PageRequest pageRequest = PageRequest.of(pageNumber - 1, defaultPageSize);
+        PageRequest pageRequest = PageRequest.of(pageNumber, defaultPageSize);
         Page<RutasModel> coordenadasPage = rutasRepository.findByEmpresasModelIdAndEstado(empresa, estado, pageRequest);
 
         return coordenadasPage;
