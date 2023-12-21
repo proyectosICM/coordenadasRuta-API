@@ -1,12 +1,9 @@
 package com.ICM.coordenadasRutaAPI.Controllers;
 
 import com.ICM.coordenadasRutaAPI.Models.CoordenadasModel;
-import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
-import com.ICM.coordenadasRutaAPI.Models.RutasModel;
 import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTO;
 import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTOtxt;
 import com.ICM.coordenadasRutaAPI.Services.CoordenadasService;
-import com.ICM.coordenadasRutaAPI.Services.PaisesService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -18,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -31,7 +27,12 @@ public class CoordenadasController {
     @Autowired
 
     CoordenadasService coordenadasService;
-
+    /**
+     * Gets all the coordinates associated with a route.
+     *
+     * @param ruta The ID of the route.
+     * @return List of coordinates associated with the route.
+     */
     @GetMapping("/ruta/{ruta}")
     public List<CoordenadasModel> GetxCoordenadas(@PathVariable Long ruta) {
         return coordenadasService.GetxRutas(ruta);

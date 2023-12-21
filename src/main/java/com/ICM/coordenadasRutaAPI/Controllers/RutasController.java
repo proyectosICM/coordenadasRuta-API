@@ -17,6 +17,7 @@ public class RutasController {
     @Autowired
     RutasService rutasService;
 
+
     @GetMapping("/xempresa/{estado}/{empresa}")
     public ResponseEntity<List<RutasModel>> GetxEmpresa (@PathVariable Long empresa, @PathVariable Boolean estado){
         List<RutasModel> data = rutasService.GetxEmpresa(empresa, estado);
@@ -80,21 +81,27 @@ public class RutasController {
 
 
     @PutMapping("/deshabilitar/{id}")
-    public ResponseEntity<RutasModel> Deshabilitar(@PathVariable Long id){
-        RutasModel eruta = rutasService.Deshabilitar(id);
-        if (eruta!=null){
+    public ResponseEntity<?> Deshabilitar(@PathVariable Long id){
+        try {
+            RutasModel eruta = rutasService.Deshabilitar(id);
             return new ResponseEntity<>(eruta, HttpStatus.OK);
+        } catch (RutasService.RutaNoEncontradaException e) {
+            return new ResponseEntity<>("Ruta no encontrada: " + e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Ocurrió un error al deshabilitar la ruta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("/habilitar/{id}")
-    public ResponseEntity<RutasModel> Habilitar(@PathVariable Long id){
-        RutasModel eruta = rutasService.Habilitar(id);
-        if (eruta!=null){
+    public ResponseEntity<?> Habilitar(@PathVariable Long id){
+        try {
+            RutasModel eruta = rutasService.Habilitar(id);
             return new ResponseEntity<>(eruta, HttpStatus.OK);
+        } catch (RutasService.RutaNoEncontradaException e) {
+            return new ResponseEntity<>("Ruta no encontrada: " + e.getMessage(), HttpStatus.NOT_FOUND);
+        } catch (Exception e) {
+            return new ResponseEntity<>("Ocurrió un error al habilitar la ruta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/{id}")

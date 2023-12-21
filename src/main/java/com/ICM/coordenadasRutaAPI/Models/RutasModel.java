@@ -1,5 +1,6 @@
 package com.ICM.coordenadasRutaAPI.Models;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -54,12 +55,10 @@ public class RutasModel {
     /**
      * Date on which registration was disabled.
      */
-    @Column(nullable = true)
     private LocalDate diadeshabilitacion;
 
     /**
      * Date on which the record will be deleted
      */
-    @Column(nullable = true)
     private LocalDate diaeliminacion;
 }
