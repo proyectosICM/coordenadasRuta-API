@@ -30,58 +30,39 @@ public class RutasService {
 
     /**
      * Method that returns a list of routes by company and state.
-     *
-     * @param empresa Company ID.
+     * @param empresaId Company ID.
      * @param estado  Route state (active/inactive).
      * @return List of routes by the specified company and state.
      */
-    public List<RutasModel> GetxEmpresa(Long empresa, Boolean estado){
-        return rutasRepository.findByEmpresasModelIdAndEstado(empresa, estado);
+    public List<RutasModel> getRoutesByCompanyAndState(Long empresaId, Boolean estado){
+        return rutasRepository.findByEmpresasModelIdAndEstado(empresaId, estado);
     }
 
     /**
      * Method that returns a page of paginated routes by company and state.
-     *
-     * @param empresa        Company ID.
+     * @param empresaId        Company ID.
      * @param estado         Route state (active/inactive).
      * @param pageNumber     Page number.
      * @param defaultPageSize Default page size.
      * @return Page of routes by the specified company and state.
      */
-    public Page<RutasModel> GetxEmpresaP(Long empresa, Boolean estado, int pageNumber, int defaultPageSize){
+    public Page<RutasModel> getPagedRoutesByCompanyAndState(Long empresaId, Boolean estado, int pageNumber, int defaultPageSize){
         PageRequest pageRequest = PageRequest.of(pageNumber, defaultPageSize);
-        Page<RutasModel> coordenadasPage = rutasRepository.findByEmpresasModelIdAndEstado(empresa, estado, pageRequest);
+        Page<RutasModel> coordenadasPage = rutasRepository.findByEmpresasModelIdAndEstado(empresaId, estado, pageRequest);
         return coordenadasPage;
     }
 
 
-    // CRUD methods for routes
-    /**
-     * Method to get all routes.
-     *
-     * @return List of all routes.
-     */
-    public List<RutasModel> Get(){
+    public List<RutasModel> getAllRoutes(){
         return rutasRepository.findAll();
     }
 
-    /**
-     * Method to get a route by its ID.
-     *
-     * @param id Route ID.
-     * @return Optional containing the route with the specified ID if found.
-     */
-
-    public Optional<RutasModel> GetById(Long id){
+    public Optional<RutasModel> findRouteById(Long id){
         return rutasRepository.findById(id);
     }
-    /**
-     * Method to save a new route.
-     *
-     * @param rutasModel Route model to be saved.
-     * @return Saved route model.
-     */
-    public RutasModel Save(RutasModel rutasModel) {
+
+
+    public RutasModel saveNewRoute(RutasModel rutasModel) {
         return rutasRepository.save(rutasModel);
     }
 
@@ -92,7 +73,7 @@ public class RutasService {
      * @param rutasModel   Route model containing updated information.
      * @return Updated route model if found and updated; otherwise, null.
      */
-    public RutasModel Edit(Long id, RutasModel rutasModel){
+    public RutasModel updateExistingRouteById(Long id, RutasModel rutasModel){
         Optional<RutasModel> existing = rutasRepository.findById(id);
         if(existing.isPresent()){
             RutasModel ruta = existing.get();
@@ -105,58 +86,38 @@ public class RutasService {
     }
 
     /**
-     * Method to disable a route by its ID.
+     * Method to change the state (enable/disable) of a route by its ID.
      *
-     * @param id Route ID.
-     * @return Disabled route model if found and disabled; otherwise, null.
+     * @param id           Route ID.
+     * @param habilitar    Boolean value to determine whether to enable or disable the route.
+     * @return Updated route model with the modified state if found and updated; otherwise, throws RutaNoEncontradaException.
      */
-    public RutasModel Deshabilitar(Long id){
+    public RutasModel updateRouteStateById(Long id, boolean habilitar) {
         Optional<RutasModel> existing = rutasRepository.findById(id);
         if(existing.isPresent()){
             RutasModel ruta = existing.get();
-            ruta.setEstado(false);
+            ruta.setEstado(habilitar);
+            if (habilitar) {
+                ruta.setDiadeshabilitacion(null);
+                ruta.setDiaeliminacion(null);
+            } else {
+                // Get the current date
+                LocalDate fechaDeshabilitacion = LocalDate.now();
+                ruta.setDiadeshabilitacion(fechaDeshabilitacion);
 
-            // Get the current date
-            LocalDate fechaDeshabilitacion = LocalDate.now();
-            ruta.setDiadeshabilitacion(fechaDeshabilitacion);
-
-            // Set the deletion date 7 days after the disablement date
-            LocalDate fechaEliminacion = fechaDeshabilitacion.plus(7, ChronoUnit.DAYS);
-            ruta.setDiaeliminacion(fechaEliminacion);
-
+                // Set the deletion date 7 days after the disablement date
+                LocalDate fechaEliminacion = fechaDeshabilitacion.plus(7, ChronoUnit.DAYS);
+                ruta.setDiaeliminacion(fechaEliminacion);
+            }
             return rutasRepository.save(ruta);
         } else {
             throw new RutaNoEncontradaException("La ruta con ID " + id + " no fue encontrada.");
         }
     }
 
-    /**
-     * Method to enable a route by its ID.
-     *
-     * @param id Route ID.
-     * @return Enabled route model if found and enabled; otherwise, null.
-     */
-    public RutasModel Habilitar(Long id){
-        Optional<RutasModel> existing = rutasRepository.findById(id);
-        if(existing.isPresent()){
-            RutasModel ruta = existing.get();
-            ruta.setEstado(true);
-            ruta.setDiadeshabilitacion(null);
-            ruta.setDiaeliminacion(null);
 
-            return rutasRepository.save(ruta);
-        } else {
-            throw new RutaNoEncontradaException("La ruta con ID " + id + " no fue encontrada.");
-        }
-    }
-
-    /**
-     * Method to delete a route by its ID.
-     *
-     * @param id Route ID.
-     */
     @Transactional
-    public void Delete(Long id){
+    public void deleteRouteByIdAndAssociatedCoordinates(Long id){
         // Get the list of coordinates associated with the route
         List<CoordenadasModel> coordenadas = coordenadasRepository.findByRutasModelId(id);
 

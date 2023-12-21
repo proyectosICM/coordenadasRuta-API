@@ -38,27 +38,6 @@ public class CoordenadasController {
         return coordenadasService.GetxRutas(ruta);
     }
 
-    /* Para GIAN */
-    @GetMapping("/rutadis/{codigo}")
-    public List<CoordenadasModel> GetxCoordenadasxDisp(@PathVariable String codigo) {
-        return coordenadasService.GetCoordenadasxDisp(codigo);
-    }
-
-    @GetMapping("/rutadisid/{codigo}")
-    public List<CoordenadasModel> GetxCoordenadasxDispId(@PathVariable Long codigo) {
-        return coordenadasService.GetCoordenadasxDispID(codigo);
-    }
-
-    @GetMapping("/download/{id}")
-    public void downloadCoordenadas(@PathVariable Long id, HttpServletResponse response) {
-        coordenadasService.GetCoordenadasxDispIDAndDownload(id, response);
-    }
-
-    @GetMapping("/dto/{id}")
-    public List<CoordenadasDTO> getCoordenadasDTO(@PathVariable Long id) {
-        return coordenadasService.GetCoordenadasxDispIDDTO(id);
-    }
-    /* */
 
     @GetMapping("/cxr/{ruta}")
     public Page<CoordenadasModel> obtenerCoordenadasPaginadas(
@@ -79,7 +58,9 @@ public class CoordenadasController {
     ) {
         return coordenadasService.GetxRutasPtxt(ruta, pageNumber, pageSize);
     }
-
+/*
+Definitivo
+ */
     @GetMapping("/cxrp/{dispositivo}/download")
     public ResponseEntity<Object> descargarCoordenadasTxt(
             @PathVariable Long dispositivo,
@@ -115,27 +96,11 @@ public class CoordenadasController {
         });
         return stringBuilder.toString();
     }
-
+    /* --- FIN  -- */
     /* */
 
     /*  http download chunk */
-    @GetMapping("/descargarCoordenadas/{rutaid}")
-    public ResponseEntity<InputStreamResource> descargarCoordenadas(@PathVariable Long rutaid) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.TEXT_PLAIN);
-        headers.setContentDispositionFormData("attachment", "coordenadas.txt");
 
-        List<InputStream> archivos = coordenadasService.generarArchivosTxt(rutaid);
-
-        // Devolver el primer archivo y quitarlo de la lista
-        if (!archivos.isEmpty()) {
-            InputStream inputStream = archivos.remove(0);
-            return new ResponseEntity<>(new InputStreamResource(inputStream), headers, HttpStatus.OK);
-        }
-
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-    }
-    /* */
     // CRUD
 
     @GetMapping

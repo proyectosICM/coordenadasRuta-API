@@ -1,7 +1,6 @@
 package com.ICM.coordenadasRutaAPI.Services;
 
 import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
-import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
 import com.ICM.coordenadasRutaAPI.Repositories.DispositivosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,20 +13,20 @@ public class DispositivosService {
     @Autowired
     private DispositivosRepository dispositivosRepository;
 
-    public List<DispositivosModel> Get() { return dispositivosRepository.findAll();}
+    public List<DispositivosModel> getAllDispositivos() { return dispositivosRepository.findAll();}
 
-    public Optional<DispositivosModel> GetById(Long id){
+    public Optional<DispositivosModel> getDispositivoById(Long id){
         return dispositivosRepository.findById(id);
     }
 
     public Optional<DispositivosModel> findByNombreAndEmpresasModelId(String nombre, Long empresaModelId) {
         return dispositivosRepository.findByNombreAndEmpresasModelId(nombre, empresaModelId);
     }
-    public DispositivosModel Save(DispositivosModel dispositivosModel) {
+    public DispositivosModel saveDispositivo(DispositivosModel dispositivosModel) {
         return dispositivosRepository.save(dispositivosModel);
     }
 
-    public DispositivosModel Edit(Long id, DispositivosModel dispositivosModel){
+    public DispositivosModel actualizarDispositivo(Long id, DispositivosModel dispositivosModel){
         Optional<DispositivosModel> existing = dispositivosRepository.findById(id);
         if(existing.isPresent()){
             DispositivosModel dispositivo = existing.get();
@@ -39,7 +38,7 @@ public class DispositivosService {
         return null;
     }
 
-    public DispositivosModel ReasignarRuta(Long id, DispositivosModel dispositivosModel){
+    public DispositivosModel reasignarRuta(Long id, DispositivosModel dispositivosModel){
         Optional<DispositivosModel> existing = dispositivosRepository.findById(id);
         if(existing.isPresent()){
             DispositivosModel dispositivo = existing.get();
@@ -50,7 +49,7 @@ public class DispositivosService {
         return null;
     }
 
-    public void Delete(Long id){
+    public void deleteDispositivoById(Long id){
         dispositivosRepository.deleteById(id);
     }
 

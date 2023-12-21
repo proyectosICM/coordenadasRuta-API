@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 /**
- * This class represents the model of a route (Ruta) in the application.
- * Contains information about the "Ruta" table, its status, associated companies, country, disabling and deletion dates.
+ * This class represents the model of coordinates (Coordenadas) in the application.
+ * Contains information about the "Coordenadas" table, coordinates, associated route, geofence, speed sounds, and radius.
  */
 @Data
 @NoArgsConstructor
@@ -15,26 +15,40 @@ import lombok.NoArgsConstructor;
 @Table(name = "Coordenadas")
 public class CoordenadasModel {
     /**
-     * Unique record identifier
+     * Unique record identifier for coordinates.
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
+
     /**
-     *
+     * Coordinates represented as a String.
      */
     private String coordenadas;
+
+    /**
+     * Radio de efecto asociado a las coordenadas.
+     */
     private Integer radio;
 
+    /**
+     * Speed sounds associated with these coordinates.
+     */
     @ManyToOne
     @JoinColumn(name = "velocidad", referencedColumnName = "id", nullable = false)
     private SonidosVelocidadModel sonidosVelocidadModel;
 
+    /**
+     * Geofence associated with these coordinates.
+     */
     @ManyToOne
     @JoinColumn(name = "geocerca", referencedColumnName = "id", nullable = false)
     private SonidosGeocercaModel sonidosGeocercaModel;
 
+    /**
+     * The route (RutasModel) to which these coordinates belong.
+     */
     @ManyToOne
     @JoinColumn(name = "ruta", referencedColumnName = "id", nullable = false)
     private RutasModel rutasModel;

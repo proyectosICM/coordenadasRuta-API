@@ -1,9 +1,7 @@
 package com.ICM.coordenadasRutaAPI.Services;
 
 import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
-import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Repositories.EmpresasRepository;
-import com.ICM.coordenadasRutaAPI.Repositories.PaisesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +17,7 @@ public class EmpresasService {
         String usuario = empresasModel.getUsuario();
         String password = empresasModel.getPassword();
         Optional<EmpresasModel> empresa = empresasRepository.findByUsuarioAndPassword(usuario, password);
-        return empresa.orElse(null); // Devuelve la empresa si se encuentra, o null si no
+        return empresa.orElse(null);
     }
 
     public Optional<EmpresasModel> FindByNombre(String nombre){

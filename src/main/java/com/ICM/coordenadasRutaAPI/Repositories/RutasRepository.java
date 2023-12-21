@@ -9,6 +9,9 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+/**
+ * Repository interface for managing routes (RutasModel) in the application.
+ */
 @Repository
 public interface RutasRepository extends JpaRepository<RutasModel, Long> {
     /**

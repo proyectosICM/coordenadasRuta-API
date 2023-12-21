@@ -17,21 +17,23 @@ public class RutasController {
     @Autowired
     RutasService rutasService;
 
-
-    @GetMapping("/xempresa/{estado}/{empresa}")
-    public ResponseEntity<List<RutasModel>> GetxEmpresa (@PathVariable Long empresa, @PathVariable Boolean estado){
-        List<RutasModel> data = rutasService.GetxEmpresa(empresa, estado);
-        if(data.isEmpty()){
+    @GetMapping("/xempresa")
+    public ResponseEntity<List<RutasModel>> getRoutesByCompanyAndState(
+            @RequestParam Long empresaId,
+            @RequestParam Boolean estado
+    ) {
+        List<RutasModel> data = rutasService.getRoutesByCompanyAndState(empresaId, estado);
+        if (data.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(data);
     }
 
-    @GetMapping("/xempresaP/{estado}/{empresa}")
-    public ResponseEntity<Object> GetxEmpresaP(@PathVariable Long empresa, @PathVariable Boolean estado,
+    @GetMapping("/xempresaP/{estado}/{empresaId}")
+    public ResponseEntity<Object> getPagedRoutesByCompanyAndState(@PathVariable Long empresaId, @PathVariable Boolean estado,
                                                @RequestParam(defaultValue = "1") int pageNumber,
                                                @RequestParam(defaultValue = "6") int pageSize) {
-        Page<RutasModel> data = rutasService.GetxEmpresaP(empresa, estado, pageNumber, pageSize);
+        Page<RutasModel> data = rutasService.getPagedRoutesByCompanyAndState(empresaId, estado, pageNumber, pageSize);
 
         if (data != null && !data.isEmpty()) {
             return ResponseEntity.ok(data);
@@ -40,73 +42,56 @@ public class RutasController {
         }
     }
 
-    // This controller retrieves all data from the RutasModel
     @GetMapping
-    public ResponseEntity<List<RutasModel>> GetAll (){
+    public ResponseEntity<List<RutasModel>> getAllRoutes (){
 
-        List<RutasModel> data =  rutasService.Get();
+        List<RutasModel> data =  rutasService.getAllRoutes();
 
         if (data.isEmpty()){
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.ok(data);
     }
 
-    // Retrieves data for a given ID input
     @GetMapping("/{id}")
-    public ResponseEntity<RutasModel> GetById(@PathVariable Long id){
-        Optional<RutasModel> data  = rutasService.GetById(id);
+    public ResponseEntity<RutasModel> getRouteById(@PathVariable Long id){
+        Optional<RutasModel> data  = rutasService.findRouteById(id);
 
         return data.map(response -> ResponseEntity.ok(response))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // This controller creates a new RutasModel data
+
     @PostMapping
-    public ResponseEntity<RutasModel> Save(@RequestBody RutasModel paisesModel){
-        RutasModel cruta = rutasService.Save(paisesModel);
-        return new ResponseEntity<>(cruta, HttpStatus.CREATED);
+    public ResponseEntity<RutasModel> createNewRoute(@RequestBody RutasModel routeModel) {
+        RutasModel createdRoute = rutasService.saveNewRoute(routeModel);
+        return new ResponseEntity<>(createdRoute, HttpStatus.CREATED);
     }
 
-    // This controller edits a specific data of RutasModel
     @PutMapping("/{id}")
-    public ResponseEntity<RutasModel> Edit(@PathVariable Long id, @RequestBody RutasModel rutasModel){
-        RutasModel eruta = rutasService.Edit(id, rutasModel);
-        if (eruta!=null){
-            return new ResponseEntity<>(eruta, HttpStatus.OK);
+    public ResponseEntity<RutasModel> updateRouteById(@PathVariable Long id, @RequestBody RutasModel rutasModel){
+        RutasModel data = rutasService.updateExistingRouteById(id, rutasModel);
+        if (data!=null){
+            return new ResponseEntity<>(data, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-
-    @PutMapping("/deshabilitar/{id}")
-    public ResponseEntity<?> Deshabilitar(@PathVariable Long id){
+    @PutMapping("/estado/{id}/{habilitar}")
+    public ResponseEntity<?> updateRouteState(@PathVariable Long id, @PathVariable boolean habilitar){
         try {
-            RutasModel eruta = rutasService.Deshabilitar(id);
+            RutasModel eruta = rutasService.updateRouteStateById(id, habilitar);
             return new ResponseEntity<>(eruta, HttpStatus.OK);
         } catch (RutasService.RutaNoEncontradaException e) {
             return new ResponseEntity<>("Ruta no encontrada: " + e.getMessage(), HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity<>("Ocurrió un error al deshabilitar la ruta.", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @PutMapping("/habilitar/{id}")
-    public ResponseEntity<?> Habilitar(@PathVariable Long id){
-        try {
-            RutasModel eruta = rutasService.Habilitar(id);
-            return new ResponseEntity<>(eruta, HttpStatus.OK);
-        } catch (RutasService.RutaNoEncontradaException e) {
-            return new ResponseEntity<>("Ruta no encontrada: " + e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (Exception e) {
-            return new ResponseEntity<>("Ocurrió un error al habilitar la ruta.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Ocurrió un error al cambiar el estado de la ruta.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<RutasModel> Delete(@PathVariable Long id){
-        rutasService.Delete(id);
+    public ResponseEntity<RutasModel> deleteRouteAndAssociatedCoordinatesById(@PathVariable Long id){
+        rutasService.deleteRouteByIdAndAssociatedCoordinates(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

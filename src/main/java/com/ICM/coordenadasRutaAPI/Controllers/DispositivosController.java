@@ -1,9 +1,7 @@
 package com.ICM.coordenadasRutaAPI.Controllers;
 
 import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
-import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
 import com.ICM.coordenadasRutaAPI.Services.DispositivosService;
-import com.ICM.coordenadasRutaAPI.Services.EmpresasService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +17,13 @@ public class DispositivosController {
     DispositivosService dispositivosService;
 
     @GetMapping
-    public List<DispositivosModel> GetAll (){
-        return dispositivosService.Get();
+    public List<DispositivosModel> getAllDispositivos (){
+        return dispositivosService.getAllDispositivos();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DispositivosModel> GetById(@PathVariable Long id){
-        Optional<DispositivosModel> dispositivos = dispositivosService.GetById(id);
+    public ResponseEntity<DispositivosModel> getDispositivoById(@PathVariable Long id){
+        Optional<DispositivosModel> dispositivos = dispositivosService.getDispositivoById(id);
         return new ResponseEntity<>(dispositivos.get(), HttpStatus.OK);
     }
 
@@ -45,14 +43,14 @@ public class DispositivosController {
 
 
     @PostMapping
-    public ResponseEntity<DispositivosModel> Save(@RequestBody DispositivosModel dispositivosModel){
-        DispositivosModel cdispositivos = dispositivosService.Save(dispositivosModel);
+    public ResponseEntity<DispositivosModel> saveDispositivo(@RequestBody DispositivosModel dispositivosModel){
+        DispositivosModel cdispositivos = dispositivosService.saveDispositivo(dispositivosModel);
         return new ResponseEntity<>(cdispositivos, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DispositivosModel> Edit(@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
-        DispositivosModel edispositivos = dispositivosService.Edit(id, dispositivosModel);
+    public ResponseEntity<DispositivosModel> actualizarDispositivo(@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
+        DispositivosModel edispositivos = dispositivosService.actualizarDispositivo(id, dispositivosModel);
         if (edispositivos!=null){
             return new ResponseEntity<>(edispositivos, HttpStatus.OK);
         }
@@ -60,8 +58,8 @@ public class DispositivosController {
     }
 
     @PutMapping("/reasignar/{id}")
-    public ResponseEntity<DispositivosModel> ReasignarRuta(@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
-        DispositivosModel edispositivos = dispositivosService.ReasignarRuta(id, dispositivosModel);
+    public ResponseEntity<DispositivosModel> reasignarRuta(@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
+        DispositivosModel edispositivos = dispositivosService.reasignarRuta(id, dispositivosModel);
         if (edispositivos!=null){
             return new ResponseEntity<>(edispositivos, HttpStatus.OK);
         }
@@ -69,8 +67,8 @@ public class DispositivosController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<DispositivosModel> Delete(@PathVariable Long id){
-        dispositivosService.Delete(id);
+    public ResponseEntity<DispositivosModel> deleteDispositivo(@PathVariable Long id){
+        dispositivosService.deleteDispositivoById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

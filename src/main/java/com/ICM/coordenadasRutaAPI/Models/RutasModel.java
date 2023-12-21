@@ -1,6 +1,5 @@
 package com.ICM.coordenadasRutaAPI.Models;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -51,6 +50,10 @@ public class RutasModel {
     @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
     private PaisesModel paisesModel;
 
+    /**
+     *  These fields represent the date when registration was disabled and
+     *  the date when the record will be deleted, respectively
+     */
 
     /**
      * Date on which registration was disabled.
