@@ -54,6 +54,12 @@ public class CoordenadasService {
                 .orElse(Page.empty());
     }
 
+    public Long countPages(Long dispositivo){
+        Optional<DispositivosModel> data = dispositivosRepository.findById(dispositivo);
+
+        return coordenadasRepository.countByRutasModelId(data.get().getRutasModel().getId());
+    }
+
 
     /* */
     public Page<CoordenadasModel> GetxRutasP(Long ruta, int pageNumber, int defaultPageSize) {
@@ -73,6 +79,8 @@ public class CoordenadasService {
             return coordenadasRepository.findByRutasModelId(ruta, pageRequest);
         }
     }
+
+
 
 
     //CRUD

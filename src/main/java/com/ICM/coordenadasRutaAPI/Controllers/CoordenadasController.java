@@ -38,6 +38,10 @@ public class CoordenadasController {
         return coordenadasService.GetxRutas(ruta);
     }
 
+    @GetMapping("/conteoPaginas/{id}")
+    public Long countPages(@PathVariable Long id){
+        return coordenadasService.countPages(id);
+    }
 
     @GetMapping("/cxr/{ruta}")
     public Page<CoordenadasModel> obtenerCoordenadasPaginadas(
