@@ -54,10 +54,17 @@ public class CoordenadasService {
                 .orElse(Page.empty());
     }
 
-    public Long countPages(Long dispositivo){
-        Optional<DispositivosModel> data = dispositivosRepository.findById(dispositivo);
+    public Long countPages(Long dispositivo) {
+        PageRequest pageRequest = PageRequest.of(1, 4);
 
-        return coordenadasRepository.countByRutasModelId(data.get().getRutasModel().getId());
+        return dispositivosRepository.findById(dispositivo)
+                .map(DispositivosModel::getRutasModel)
+                .map(rutasModel -> coordenadasRepository.findByRutasModelId(rutasModel.getId(), pageRequest))
+                .map(coordenadasPage -> {
+                    // Aquí simplemente retornamos el total de páginas disponibles.
+                    return Long.valueOf(coordenadasPage.getTotalPages());
+                })
+                .orElse(0L); // Retorna 0 si no encuentra ningún resultado.
     }
 
 

@@ -49,7 +49,7 @@ public class DispositivosController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DispositivosModel> actualizarDispositivo(@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
+    public ResponseEntity<DispositivosModel> actualizarDispositivo  (@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
         DispositivosModel edispositivos = dispositivosService.actualizarDispositivo(id, dispositivosModel);
         if (edispositivos!=null){
             return new ResponseEntity<>(edispositivos, HttpStatus.OK);
