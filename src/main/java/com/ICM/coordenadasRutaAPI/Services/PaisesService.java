@@ -11,21 +11,25 @@ import java.util.Optional;
 @Service
 public class PaisesService {
     @Autowired
-    PaisesRepository paisesRepository;
+    private PaisesRepository paisesRepository;
 
-    public List<PaisesModel> Get(){
+    /**
+     * This service class provides methods for performing CRUD operations on the PaisesModel entity.
+     */
+
+    public List<PaisesModel> getAllCountries(){
         return paisesRepository.findAll();
     }
 
-    public Optional<PaisesModel> GetById(Long id){
+    public Optional<PaisesModel> getCountryById(Long id){
         return paisesRepository.findById(id);
     }
 
-    public PaisesModel Save(PaisesModel paisesModel) {
+    public PaisesModel saveCountry(PaisesModel paisesModel) {
         return paisesRepository.save(paisesModel);
     }
 
-    public PaisesModel Edit(Long id, PaisesModel paisesModel){
+    public PaisesModel updateCountry(Long id, PaisesModel paisesModel){
         Optional<PaisesModel> existing = paisesRepository.findById(id);
         if(existing.isPresent()){
             PaisesModel pais = existing.get();
@@ -35,7 +39,7 @@ public class PaisesService {
         return null;
     }
 
-    public void Delete(Long id){
+    public void deleteCountry(Long id){
         paisesRepository.deleteById(id);
     }
 }

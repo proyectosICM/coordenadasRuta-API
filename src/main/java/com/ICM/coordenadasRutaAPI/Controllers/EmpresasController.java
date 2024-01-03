@@ -1,9 +1,7 @@
 package com.ICM.coordenadasRutaAPI.Controllers;
 
 import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
-import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Services.EmpresasService;
-import com.ICM.coordenadasRutaAPI.Services.PaisesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +14,11 @@ import java.util.Optional;
 @RequestMapping("api/empresas")
 public class EmpresasController {
     @Autowired
-    EmpresasService empresasService;
+    private EmpresasService empresasService;
 
     @PostMapping("/login")
-    public ResponseEntity<EmpresasModel> Login(@RequestBody EmpresasModel empresasModel){
-        EmpresasModel login = empresasService.autenticar(empresasModel);
+    public ResponseEntity<EmpresasModel> authenticateCompany(@RequestBody EmpresasModel empresasModel){
+        EmpresasModel login = empresasService.authenticateCompany(empresasModel);
         if (login!=null){
             return new ResponseEntity<>(login, HttpStatus.CREATED);
         }
@@ -28,15 +26,15 @@ public class EmpresasController {
     }
 
     @GetMapping("/findNombre/{nombre}")
-    public ResponseEntity<String> FindByNombre(@PathVariable String nombre){
-        Optional<EmpresasModel> data = empresasService.FindByNombre(nombre);
+    public ResponseEntity<String> findCompanyByName(@PathVariable String nombre){
+        Optional<EmpresasModel> data = empresasService.findCompanyByName(nombre);
         return data.map(response -> ResponseEntity.ok("Ya está en uso ese nombre"))
                 .orElseGet(()-> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/findUsuario/{usuario}")
     public ResponseEntity<String> FindByUsuario(@PathVariable String usuario){
-        Optional<EmpresasModel> data = empresasService.FindByUsuario(usuario);
+        Optional<EmpresasModel> data = empresasService.findCompanyByUser(usuario);
         return data.map(response -> ResponseEntity.ok("El usuario ya se encuentra en uso"))
                 .orElseGet(()-> ResponseEntity.notFound().build());
     }
@@ -44,26 +42,26 @@ public class EmpresasController {
     //CRUD
 
     @GetMapping
-    public List<EmpresasModel> GetAll (){
-        return empresasService.Get();
+    public List<EmpresasModel> getAllCompanies (){
+        return empresasService.getAllCompanies();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EmpresasModel> GetById(@PathVariable Long id){
-        Optional<EmpresasModel> data = empresasService.GetById(id);
+    public ResponseEntity<EmpresasModel> getCompanyById(@PathVariable Long id){
+        Optional<EmpresasModel> data = empresasService.getCompanyById(id);
         return data.map(response -> ResponseEntity.ok(response))
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<EmpresasModel> Save(@RequestBody EmpresasModel empresasModel){
-        EmpresasModel cempresa = empresasService.Save(empresasModel);
+    public ResponseEntity<EmpresasModel> saveCompany(@RequestBody EmpresasModel empresasModel){
+        EmpresasModel cempresa = empresasService.saveCompany(empresasModel);
         return new ResponseEntity<>(cempresa, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<EmpresasModel> Edit(@PathVariable Long id, @RequestBody EmpresasModel empresasModel){
-        EmpresasModel eempresa = empresasService.Edit(id, empresasModel);
+    public ResponseEntity<EmpresasModel> editCompany(@PathVariable Long id, @RequestBody EmpresasModel empresasModel){
+        EmpresasModel eempresa = empresasService.editCompany(id, empresasModel);
         if (eempresa!=null){
             return new ResponseEntity<>(eempresa, HttpStatus.OK);
         }
@@ -71,8 +69,8 @@ public class EmpresasController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<EmpresasModel> Delete(@PathVariable Long id){
-        empresasService.Delete(id);
+    public ResponseEntity<EmpresasModel> deleteCompany(@PathVariable Long id){
+        empresasService.deleteCompany(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

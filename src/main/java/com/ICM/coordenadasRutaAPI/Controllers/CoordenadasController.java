@@ -6,7 +6,10 @@ import com.ICM.coordenadasRutaAPI.RequestData.CoordenadasDTOtxt;
 import com.ICM.coordenadasRutaAPI.Services.CoordenadasService;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -16,7 +19,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
@@ -138,4 +144,5 @@ Definitivo
         coordenadasService.Delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
 }

@@ -10,22 +10,25 @@ import java.util.Optional;
 
 @Service
 public class RolesService {
+    /**
+     * This service class provides methods for performing CRUD operations on the RolesModel entity.
+     */
     @Autowired
     private RolesRepository rolesRepository;
 
-    public List<RolesModel> getAll(){
+    public List<RolesModel> getAllRoles(){
         return rolesRepository.findAll();
     }
 
-    public Optional<RolesModel> getById(Long id){
+    public Optional<RolesModel> getRoleById(Long id){
         return rolesRepository.findById(id);
     }
 
-    public RolesModel createRol(RolesModel rolesModel){
+    public RolesModel createRole(RolesModel rolesModel){
         return rolesRepository.save(rolesModel);
     }
 
-    public RolesModel editRol(RolesModel rolesModel, Long id){
+    public RolesModel updateRole(RolesModel rolesModel, Long id){
         Optional<RolesModel> existing = rolesRepository.findById(id);
         if(existing.isPresent()){
             RolesModel rol = existing.get();
@@ -35,7 +38,7 @@ public class RolesService {
         return null;
     }
 
-    public void deleteRol(Long id){
+    public void deleteRole(Long id){
         rolesRepository.deleteById(id);
     }
 }

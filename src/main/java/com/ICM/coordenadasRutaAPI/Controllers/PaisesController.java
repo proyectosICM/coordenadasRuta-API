@@ -2,7 +2,6 @@ package com.ICM.coordenadasRutaAPI.Controllers;
 
 import com.ICM.coordenadasRutaAPI.Models.PaisesModel;
 import com.ICM.coordenadasRutaAPI.Services.PaisesService;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,25 +17,25 @@ public class PaisesController {
     PaisesService paisesService;
 
     @GetMapping
-    public List<PaisesModel> GetAll (){
-        return paisesService.Get();
+    public List<PaisesModel> getAllCountries (){
+        return paisesService.getAllCountries();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PaisesModel> GetById(@PathVariable Long id){
-        Optional<PaisesModel> paises = paisesService.GetById(id);
+    public ResponseEntity<PaisesModel> getCountryById(@PathVariable Long id){
+        Optional<PaisesModel> paises = paisesService.getCountryById(id);
         return new ResponseEntity<>(paises.get(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<PaisesModel> Save(@RequestBody PaisesModel paisesModel){
-        PaisesModel cpais = paisesService.Save(paisesModel);
+    public ResponseEntity<PaisesModel> saveCountry(@RequestBody PaisesModel paisesModel){
+        PaisesModel cpais = paisesService.saveCountry(paisesModel);
         return new ResponseEntity<>(cpais, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PaisesModel> Edit(@PathVariable Long id, @RequestBody PaisesModel paisesModel){
-        PaisesModel epais = paisesService.Edit(id, paisesModel);
+    public ResponseEntity<PaisesModel> updateCountry(@PathVariable Long id, @RequestBody PaisesModel paisesModel){
+        PaisesModel epais = paisesService.updateCountry(id, paisesModel);
         if (epais!=null){
             return new ResponseEntity<>(epais, HttpStatus.OK);
         }
@@ -44,8 +43,8 @@ public class PaisesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<PaisesModel> Delete(@PathVariable Long id){
-        paisesService.Delete(id);
+    public ResponseEntity<PaisesModel> deleteCountry(@PathVariable Long id){
+        paisesService.deleteCountry(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

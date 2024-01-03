@@ -19,7 +19,7 @@ import java.util.Optional;
 @Service
 public class CoordenadasService {
     @Autowired
-    CoordenadasRepository coordenadasRepository;
+    private CoordenadasRepository coordenadasRepository;
     @Autowired
     private DispositivosRepository dispositivosRepository;
 

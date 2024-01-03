@@ -12,13 +12,13 @@ import java.util.Optional;
 @Service
 public class SonidosVelocidadService {
     @Autowired
-    SonidosVelocidadRepository sonidosVelocidadRepository;
+    private SonidosVelocidadRepository sonidosVelocidadRepository;
 
-    public List<SonidosVelocidadModel> Get(){
+    public List<SonidosVelocidadModel> getAllSoundSpeeds(){
         return sonidosVelocidadRepository.findAll();
     }
 
-    public Optional<SonidosVelocidadModel> GetById(Long id){
+    public Optional<SonidosVelocidadModel> getSoundSpeedById(Long id){
         return sonidosVelocidadRepository.findById(id);
     }
 }

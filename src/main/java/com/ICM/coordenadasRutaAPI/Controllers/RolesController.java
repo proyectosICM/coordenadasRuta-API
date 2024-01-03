@@ -16,12 +16,13 @@ public class RolesController {
     @Autowired
     private RolesService rolesService;
 
+
     @GetMapping
-    public List<RolesModel> getAll() {return rolesService.getAll();}
+    public List<RolesModel> getAllRoles() {return rolesService.getAllRoles();}
 
     @GetMapping("/{id}")
-    public ResponseEntity<RolesModel> getById(@PathVariable Long id) {
-        Optional<RolesModel> rol =rolesService.getById(id);
+    public ResponseEntity<RolesModel> getRoleById(@PathVariable Long id) {
+        Optional<RolesModel> rol =rolesService.getRoleById(id);
         if(rol.isPresent()){
             return new ResponseEntity<>(rol.get(), HttpStatus.OK);
         }else {
@@ -30,14 +31,14 @@ public class RolesController {
     }
 
     @PostMapping
-    public ResponseEntity<RolesModel> crearRol(RolesModel rolesModel){
-        RolesModel crol = rolesService.createRol(rolesModel);
+    public ResponseEntity<RolesModel> createRole(RolesModel rolesModel){
+        RolesModel crol = rolesService.createRole(rolesModel);
         return new ResponseEntity<>(crol, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<RolesModel> editarRol(@RequestBody RolesModel rolesModel, @PathVariable Long id){
-        RolesModel erol = rolesService.editRol(rolesModel, id);
+    public ResponseEntity<RolesModel> updateRole(@RequestBody RolesModel rolesModel, @PathVariable Long id){
+        RolesModel erol = rolesService.updateRole(rolesModel, id);
         if (erol!=null){
             return new ResponseEntity<>(erol, HttpStatus.OK);
         }
@@ -45,8 +46,8 @@ public class RolesController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<RolesModel> eliminarRol(@PathVariable Long id){
-        rolesService.deleteRol(id);
+    public ResponseEntity<RolesModel> deleteRole(@PathVariable Long id){
+        rolesService.deleteRole(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

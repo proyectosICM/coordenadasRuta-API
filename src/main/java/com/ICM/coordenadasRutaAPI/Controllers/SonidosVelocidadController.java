@@ -21,9 +21,9 @@ public class SonidosVelocidadController {
 
     // This controller retrieves all data from the SonidosVelocidadModel
     @GetMapping
-    public ResponseEntity<List<SonidosVelocidadModel>> GetAll (){
+    public ResponseEntity<List<SonidosVelocidadModel>> getAllSoundSpeeds (){
 
-        List<SonidosVelocidadModel> data =  sonidosVelocidadService.Get();
+        List<SonidosVelocidadModel> data =  sonidosVelocidadService.getAllSoundSpeeds();
 
         if(data.isEmpty()){
             return ResponseEntity.noContent().build();
@@ -34,8 +34,8 @@ public class SonidosVelocidadController {
 
     // Retrieves data for a given ID input
     @GetMapping("/{id}")
-    public ResponseEntity<SonidosVelocidadModel> GetById(@PathVariable Long id){
-        Optional<SonidosVelocidadModel> data = sonidosVelocidadService.GetById(id);
+    public ResponseEntity<SonidosVelocidadModel> getSoundSpeedById(@PathVariable Long id){
+        Optional<SonidosVelocidadModel> data = sonidosVelocidadService.getSoundSpeedById(id);
 
         return data.map(response -> ResponseEntity.ok(response))
                 .orElseGet(() -> ResponseEntity.notFound().build());

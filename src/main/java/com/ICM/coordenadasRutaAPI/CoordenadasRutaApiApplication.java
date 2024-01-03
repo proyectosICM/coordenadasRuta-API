@@ -9,4 +9,3 @@ public class CoordenadasRutaApiApplication {
 		SpringApplication.run(CoordenadasRutaApiApplication.class, args);
 	}
 }
- 	

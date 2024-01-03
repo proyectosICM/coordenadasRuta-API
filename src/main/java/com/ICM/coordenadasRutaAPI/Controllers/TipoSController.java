@@ -17,15 +17,15 @@ import java.util.Optional;
     @RequestMapping("api/tipoS")
 public class TipoSController {
     @Autowired
-    TipoSService tipoSService;
+    private TipoSService tipoSService;
     @GetMapping
-    public List<TipoSModel> GetAll (){
-        return tipoSService.Get();
+    public List<TipoSModel> getAllTypesSignals (){
+        return tipoSService.getAllTypesSignals();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TipoSModel> GetById(@PathVariable Long id){
-        Optional<TipoSModel> tipoS = tipoSService.GetById(id);
+    public ResponseEntity<TipoSModel> getTypeSignalsById(@PathVariable Long id){
+        Optional<TipoSModel> tipoS = tipoSService.getTypeSignalsById(id);
         return new ResponseEntity<>(tipoS.get(), HttpStatus.OK);
     }
 }

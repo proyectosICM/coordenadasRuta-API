@@ -12,13 +12,13 @@ import java.util.Optional;
 @Service
 public class TipoSService {
     @Autowired
-    TipoSRepository tipoSRepository;
+    private TipoSRepository tipoSRepository;
 
-    public List<TipoSModel> Get(){
+    public List<TipoSModel> getAllTypesSignals(){
         return tipoSRepository.findAll();
     }
 
-    public Optional<TipoSModel> GetById(Long id){
+    public Optional<TipoSModel> getTypeSignalsById(Long id){
         return tipoSRepository.findById(id);
     }
 }
