@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
  * Contains information about the "Dispositivos" table, including its identifier, name,
  * associated route, and associated company.
  */
-
 @Entity
 @Data
 @AllArgsConstructor
@@ -29,6 +28,18 @@ public class DispositivosModel {
      * Code name of the device.
      */
     private String nombre;
+
+    /**
+     * Speed information for the device.
+     */
+    private Integer velocidad;
+
+    /**
+     * Volume information for the device.
+     */
+    private Integer volumen;
+
+    private Boolean estado;
 
     /**
      * The route (RutaModel) associated with this device.

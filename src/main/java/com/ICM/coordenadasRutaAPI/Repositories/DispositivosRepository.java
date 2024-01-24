@@ -1,6 +1,9 @@
 package com.ICM.coordenadasRutaAPI.Repositories;
 
 import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
+import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -34,4 +37,14 @@ public interface DispositivosRepository extends JpaRepository<DispositivosModel,
      * @return An optional containing the device with the given name, if present.
      */
     Optional<DispositivosModel> findByNombre(String nombre);
+
+    /**
+     * Retrieves a paginated list of devices associated with a specific company and in a given state.
+     *
+     * @param empresaModel The company for which to retrieve devices.
+     * @param estado       The state of the devices to filter.
+     * @param pageable     The pageable information for pagination.
+     * @return Page of DispositivosModel objects associated with the specified company and state.
+     */
+    Page<DispositivosModel> findByEmpresasModelIdAndEstado(Long empresaModel, Boolean estado, Pageable pageable);
 }

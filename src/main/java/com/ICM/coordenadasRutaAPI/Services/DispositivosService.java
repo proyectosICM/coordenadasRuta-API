@@ -1,8 +1,11 @@
 package com.ICM.coordenadasRutaAPI.Services;
 
 import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
+import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
 import com.ICM.coordenadasRutaAPI.Repositories.DispositivosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +25,12 @@ public class DispositivosService {
     public Optional<DispositivosModel> findByNombreAndEmpresasModelId(String nombre, Long empresaModelId) {
         return dispositivosRepository.findByNombreAndEmpresasModelId(nombre, empresaModelId);
     }
+
+    public Page<DispositivosModel> findByEmpresaIdAndEstado(Long empresa, Boolean estado, int page, int size) {
+        PageRequest pageable = PageRequest.of(page, size);
+        return dispositivosRepository.findByEmpresasModelIdAndEstado(empresa, estado, pageable);
+    }
+
     public DispositivosModel saveDispositivo(DispositivosModel dispositivosModel) {
         return dispositivosRepository.save(dispositivosModel);
     }

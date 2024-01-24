@@ -1,8 +1,10 @@
 package com.ICM.coordenadasRutaAPI.Controllers;
 
 import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
+import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
 import com.ICM.coordenadasRutaAPI.Services.DispositivosService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +43,15 @@ public class DispositivosController {
         }
     }
 
+    @GetMapping("/empresax")
+    public ResponseEntity<Page<DispositivosModel>> findByEmpresaAndEstado(
+            @RequestParam(name = "empresaId") Long empresaId,
+            @RequestParam(name = "estado") Boolean estado,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<DispositivosModel> dispositivos = dispositivosService.findByEmpresaIdAndEstado(empresaId, estado, page, size);
+        return new ResponseEntity<>(dispositivos, HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<DispositivosModel> saveDispositivo(@RequestBody DispositivosModel dispositivosModel){

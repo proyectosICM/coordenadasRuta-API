@@ -50,6 +50,7 @@ public class RutasModel {
     @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
     private PaisesModel paisesModel;
 
+
     /**
      *  These fields represent the date when registration was disabled and
      *  the date when the record will be deleted, respectively
