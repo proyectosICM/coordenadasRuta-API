@@ -1,7 +1,6 @@
 package com.ICM.coordenadasRutaAPI.Repositories;
 
 import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
-import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
