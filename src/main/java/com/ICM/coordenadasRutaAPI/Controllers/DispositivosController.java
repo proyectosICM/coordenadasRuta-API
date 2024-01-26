@@ -79,23 +79,18 @@ public class DispositivosController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/prop/{id}")
-    public Map<String, Object> getProps(@PathVariable Long id) {
-        Map<String, Object> response = new HashMap<>();
 
-        Optional<DispositivosModel> existing = dispositivosService.getDispositivoById(id);
+    @GetMapping("/props/{id}")
+    public ResponseEntity<String> getProps(@PathVariable Long id) {
+        String propsJson = dispositivosService.props(id);
 
-        if (existing.isPresent()) {
-            DispositivosModel dispositivo = existing.get();
-            response.put("velocidad", dispositivo.getVelocidad());
-            response.put("volumen", dispositivo.getVolumen());
+        if (propsJson != null) {
+            return ResponseEntity.ok(propsJson);
         } else {
-            // Puedes manejar el caso en el que el dispositivo no existe
-            response.put("error", "Dispositivo no encontrado");
+            return ResponseEntity.notFound().build();
         }
-
-        return response;
     }
+
     @PutMapping("/reasignar/{id}")
     public ResponseEntity<DispositivosModel> reasignarRuta(@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
         DispositivosModel edispositivos = dispositivosService.reasignarRuta(id, dispositivosModel);

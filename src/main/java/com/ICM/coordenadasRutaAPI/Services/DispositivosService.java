@@ -3,6 +3,7 @@ package com.ICM.coordenadasRutaAPI.Services;
 import com.ICM.coordenadasRutaAPI.Models.DispositivosModel;
 import com.ICM.coordenadasRutaAPI.Models.EmpresasModel;
 import com.ICM.coordenadasRutaAPI.Repositories.DispositivosRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -61,7 +62,8 @@ public class DispositivosService {
         return null;
     }
 
-    public Map<String, Object> props(Long id) {
+
+    public String props(Long id) {
         Optional<DispositivosModel> existing = dispositivosRepository.findById(id);
 
         if (existing.isPresent()) {
@@ -69,7 +71,15 @@ public class DispositivosService {
             Map<String, Object> propsMap = new HashMap<>();
             propsMap.put("velocidad", dispositivo.getVelocidad());
             propsMap.put("volumen", dispositivo.getVolumen());
-            return propsMap;
+
+            try {
+                // Convierte el mapa a formato JSON
+                ObjectMapper objectMapper = new ObjectMapper();
+                return objectMapper.writeValueAsString(propsMap);
+            } catch (Exception e) {
+                // Maneja cualquier excepción que pueda ocurrir durante la conversión
+                e.printStackTrace(); // Puedes cambiar esto por un manejo más apropiado
+            }
         }
         return null;
     }
