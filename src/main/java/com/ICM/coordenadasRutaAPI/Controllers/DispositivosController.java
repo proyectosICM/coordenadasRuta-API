@@ -81,13 +81,14 @@ public class DispositivosController {
 
 
     @GetMapping("/props/{id}")
-    public ResponseEntity<String> getProps(@PathVariable Long id) {
+    public String getProps(@PathVariable Long id) {
         String propsString = dispositivosService.props(id);
 
         if (propsString != null) {
-            return ResponseEntity.ok(propsString);
+            return propsString;
         } else {
-            return ResponseEntity.notFound().build();
+            // Manejar el caso cuando no se encuentra el dispositivo
+            return "Dispositivo no encontrado";
         }
     }
 

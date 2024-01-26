@@ -72,17 +72,13 @@ public class DispositivosService {
             propsMap.put("velocidad", dispositivo.getVelocidad());
             propsMap.put("volumen", dispositivo.getVolumen());
 
-            try {
-                // Convierte el mapa a formato JSON
-                ObjectMapper objectMapper = new ObjectMapper();
-                return objectMapper.writeValueAsString(propsMap);
-            } catch (Exception e) {
-                // Maneja cualquier excepción que pueda ocurrir durante la conversión
-                e.printStackTrace(); // Puedes cambiar esto por un manejo más apropiado
-            }
+            // Construye la cadena manualmente
+            return "\"volumen\":" + dispositivo.getVolumen() + ",\"velocidad\":" + dispositivo.getVelocidad();
+        } else {
+            return null;
         }
-        return null;
     }
+
 
     public DispositivosModel reasignarRuta(Long id, DispositivosModel dispositivosModel){
         Optional<DispositivosModel> existing = dispositivosRepository.findById(id);
