@@ -68,16 +68,14 @@ public class DispositivosService {
 
         if (existing.isPresent()) {
             DispositivosModel dispositivo = existing.get();
-            Map<String, Object> propsMap = new HashMap<>();
-            propsMap.put("velocidad", dispositivo.getVelocidad());
-            propsMap.put("volumen", dispositivo.getVolumen());
 
-            // Construye la cadena manualmente
-            return "\"volumen\":" + dispositivo.getVolumen() + ",\"velocidad\":" + dispositivo.getVelocidad();
+            // Concatena los valores de velocidad y volumen
+            return dispositivo.getVolumen() + "," + dispositivo.getVelocidad();
         } else {
             return null;
         }
     }
+
 
 
     public DispositivosModel reasignarRuta(Long id, DispositivosModel dispositivosModel){
