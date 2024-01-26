@@ -70,7 +70,7 @@ public class DispositivosService {
             DispositivosModel dispositivo = existing.get();
 
             // Concatena los valores de velocidad y volumen
-            return dispositivo.getVolumen() + "," + dispositivo.getVelocidad();
+            return dispositivo.getVolumen() + "\n" + dispositivo.getVelocidad();
         } else {
             return null;
         }
