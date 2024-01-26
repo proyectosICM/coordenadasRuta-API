@@ -82,10 +82,10 @@ public class DispositivosController {
 
     @GetMapping("/props/{id}")
     public ResponseEntity<String> getProps(@PathVariable Long id) {
-        String propsJson = dispositivosService.props(id);
+        String propsString = dispositivosService.props(id);
 
-        if (propsJson != null) {
-            return ResponseEntity.ok(propsJson);
+        if (propsString != null) {
+            return ResponseEntity.ok(propsString);
         } else {
             return ResponseEntity.notFound().build();
         }
