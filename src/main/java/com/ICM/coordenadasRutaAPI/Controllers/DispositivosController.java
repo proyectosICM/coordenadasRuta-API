@@ -70,7 +70,7 @@ public class DispositivosController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/prop/{id}")
+    @PostMapping("/prop/{id}")
     public ResponseEntity<DispositivosModel> actualizarDispositivoprop  (@PathVariable Long id, @RequestBody DispositivosModel dispositivosModel){
         DispositivosModel edispositivos = dispositivosService.actualizarDispositivoprop(id, dispositivosModel);
         if (edispositivos!=null){
