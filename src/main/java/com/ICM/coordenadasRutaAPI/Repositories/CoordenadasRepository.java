@@ -10,41 +10,40 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Repository interface for managing coordinates (CoordenadasModel) in the application.
+ * Interfaz del repositorio para la gestión de coordenadas (CoordenadasModel) en la aplicación.
  */
-
 @Repository
 public interface CoordenadasRepository extends JpaRepository<CoordenadasModel, Long> {
    /**
-    * Find coordinates by associated route.
+    * Buscar coordenadas por ruta asociada.
     *
-    * @param ruta The route model to search coordinates for.
-    * @param pageable   The pagination information.
-    * @return A page of coordinates associated with the given route.
+    * @param ruta El id de la ruta para buscar coordenadas.
+    * @param pageable La información de paginación.
+    * @return Una página de coordenadas asociadas con la ruta dada.
     */
    Page<CoordenadasModel> findByRutasModelId(Long ruta, Pageable pageable);
 
    /**
-    * Find coordinates by associated route.
+    * Buscar coordenadas por ruta asociada.
     *
-    * @param rutasModel The route model to search coordinates for.
-    * @return A list of coordinates associated with the given route.
+    * @param rutasModel El modelo de ruta para buscar coordenadas.
+    * @return Una lista de coordenadas asociadas con la ruta dada.
     */
    List<CoordenadasModel> findByRutasModel(RutasModel rutasModel);
 
    /**
-    * Find coordinates by associated route ID.
+    * Buscar coordenadas por ID de ruta asociada.
     *
-    * @param rutasModelId The ID of the route to search coordinates for.
-    * @return A list of coordinates associated with the given route ID.
+    * @param rutasModelId El ID de la ruta para buscar coordenadas.
+    * @return Una lista de coordenadas asociadas con el ID de ruta dado.
     */
    List<CoordenadasModel> findByRutasModelId(Long rutasModelId);
 
    /**
-    * Count the number of coordinates associated with a route.
+    * Cuenta el número de coordenadas asociadas a una ruta.
     *
-    * @param rutaid The route model to count coordinates for.
-    * @return The count of coordinates associated with the given route.
+    * @param rutaid El id de la ruta para contar las coordenadas.
+    * @return El recuento de coordenadas asociadas con la ruta dada.
     */
    Long countByRutasModelId(Long rutaid);
 }

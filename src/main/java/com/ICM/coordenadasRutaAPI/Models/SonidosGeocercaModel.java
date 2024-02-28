@@ -4,10 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 /**
- * This class represents the model of geofence sounds (Sonidos de Geocerca) in the application.
- * Contains information about the "sonidosGeocerca" table, including its identifier, name,
- * type of signal, image URL, sound URL, associated country, sound code, and details.
+ * Esta clase es un modelo que representa una geocerca en la aplicación.
+ * Se usa almacenar informacion relacioanada a la geocerca como su nombre, la imagen y el sonido a emitir
  */
 @Data
 @NoArgsConstructor
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "sonidosGeocerca")
 public class SonidosGeocercaModel {
     /**
-     * Unique identifier for the geofence sound record.
+     * Identificador unico para cada geocerca, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,41 +24,41 @@ public class SonidosGeocercaModel {
     private Long id;
 
     /**
-     * Name of the geofence sound.
+     * Nombre en codigo de la geocerca
      */
     private String nombre;
 
     /**
-     * Type of signal associated with the geofence sound.
+     * Tipo de señal que es esta geocerca
      */
     @ManyToOne
     @JoinColumn(name = "tipoS", referencedColumnName = "id", nullable = false)
     private TipoSModel tipoSModel;
 
     /**
-     * URL of the image related to the geofence sound.
+     * URL de la imagen relacionada a la geocerca
      */
     private String urlImagen;
 
     /**
-     * URL of the sound related to the geofence.
+     * URL del sonido de la geocerca
      */
     private String urlSonido;
 
     /**
-     * Associated country of the geofence sound.
+     * Pais al que esta asociado la geocerca
      */
     @ManyToOne
     @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
     private PaisesModel paisesModel;
 
     /**
-     * Code representing the geofence sound.
+     * Codigo del sonido que se usa para reproducir el sondio en el dispisitivo
      */
     private Integer codsonido;
 
     /**
-     * Additional details about the geofence.
+     * Detalles adicionales sobre la geocerca, como un nombre mas descriptivo
      */
     private String detalle;
 

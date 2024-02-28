@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 /**
- * This class represents the model of coordinates (Coordenadas) in the application.
- * Contains information about the "Coordenadas" table, coordinates, associated route, geofence, speed sounds, and radius.
+ * Esta clase es un modelo que representa un conjunto de coordenadas en la aplicación.
+ * Continiene informacion acerca de las mismas y sus propiedad asignadas (Sonidos, imagenes y radio en el que hace efecto)
  */
 @Data
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Coordenadas")
 public class CoordenadasModel {
     /**
-     * Unique record identifier for coordinates.
+     * Identificador unico para cada coordenada, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +24,7 @@ public class CoordenadasModel {
     private Long id;
 
     /**
-     * Coordinates represented as a String.
+     * Coordenada en si misma que debe contener latitud y longuitud
      */
     private String coordenadas;
 
@@ -33,24 +34,23 @@ public class CoordenadasModel {
     private Integer radio;
 
     /**
-     * Speed sounds associated with these coordinates.
+     * Sonido de alerta para la reducion de velocidad
      */
     @ManyToOne
     @JoinColumn(name = "velocidad", referencedColumnName = "id", nullable = false)
     private SonidosVelocidadModel sonidosVelocidadModel;
 
     /**
-     * Geofence associated with these coordinates.
+     * Geocerca asociada a la coordenada
      */
     @ManyToOne
     @JoinColumn(name = "geocerca", referencedColumnName = "id", nullable = false)
     private SonidosGeocercaModel sonidosGeocercaModel;
 
     /**
-     * The route (RutasModel) to which these coordinates belong.
+     * La ruta a la que pertenece esta coordenada
      */
     @ManyToOne
     @JoinColumn(name = "ruta", referencedColumnName = "id", nullable = false)
     private RutasModel rutasModel;
-
 }

@@ -6,11 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class represents the model of a company (Empresa) in the application.
- * Contains information about the "Empresas" table, including its identifier, name,
- * user, and password.
+ * Esta clase es un modelo que representa una empresa en la aplicación.
+ * Continiene informacion acerca del nombre mismo de la empresa y su usuario para acceder al sistema.
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Empresas")
 public class EmpresasModel {
     /**
-     * Unique identifier for the company record.
+     * Identificador unico para cada empresa, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,19 +24,17 @@ public class EmpresasModel {
     private Long id;
 
     /**
-     * Name of the company.
+     * Nombre de la empresa
      */
     private String nombre;
 
     /**
-     * User associated with the company.
+     * Usuario para la empresa
      */
     private String usuario;
 
     /**
-     * Password associated with the company.
+     * Contraseña para la empresa
      */
     private String password;
-
-
 }

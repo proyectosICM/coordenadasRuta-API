@@ -7,9 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDate;
+
 /**
- * This class represents the model of a route (Ruta) in the application.
- * Contains information about the "Ruta" table, its status, associated companies, country, disabling and deletion dates.
+ * Esta clase es un modelo que representa una ruta en la aplicación.
+ * Se usa para almacenar asociar a las coordenadas y poder luego hacer filtro de coordenadas por ruta
  */
 @Data
 @NoArgsConstructor
@@ -18,33 +19,33 @@ import java.time.LocalDate;
 @Table(name = "Ruta")
 public class RutasModel {
     /**
-     * Unique record identifier
+     * Identificador unico para cada ruta, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(unique = true, nullable = false)
     private Long id;
     /**
-     * Route name
+     * Nombre de la ruta
      */
     @NonNull
     private String nomruta;
 
     /**
-     * Current route status (active/inactive).
+     * El estado de la ruta, puede ser activo o inhabilitado
      */
     @NonNull
     private boolean estado;
 
     /**
-     * The company (empresa) associated with this route.
+     * La empresa asociada a la ruta
      */
     @ManyToOne
     @JoinColumn(name = "empresa", referencedColumnName = "id", nullable = false)
     private EmpresasModel empresasModel;
 
     /**
-     * The country (pais) to which this route belongs.
+     * Pais asociado a esta ruta
      */
     @ManyToOne
     @JoinColumn(name = "pais", referencedColumnName = "id", nullable = false)
@@ -52,17 +53,18 @@ public class RutasModel {
 
 
     /**
-     *  These fields represent the date when registration was disabled and
-     *  the date when the record will be deleted, respectively
+     * Estos campos representan la fecha en que se deshabilitó el registro y
+     * la fecha en la que se eliminará el registro, respectivamente
      */
 
     /**
-     * Date on which registration was disabled.
+     * Fecha en la que se deshabilitó el registro.
      */
     private LocalDate diadeshabilitacion;
 
+
     /**
-     * Date on which the record will be deleted
+     * Fecha en la que se eliminará el registro
      */
     private LocalDate diaeliminacion;
 }

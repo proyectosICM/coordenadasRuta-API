@@ -5,8 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 /**
- * This class represents the model of speed sounds (Sonidos Velocidad) in the application.
- * Contains information about the "speedsounds" table, including its identifier, name, speed sound, and code.
+ * Esta clase es un modelo que representa un sonido preventivo de velocidad
+ * Se usa almacenar informacion relacioanada al sonido preventivo como su nombre(Kilometros), el sonido a emitir
+ * y el codigo del audio para su reproduccion en el dispositivo
  */
 @Data
 @NoArgsConstructor
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "sonidosVelocidad")
 public class SonidosVelocidadModel {
     /**
-     * Unique identifier for the speed sound record.
+     * Identificador unico para cada sonido de veloidad, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,17 +24,17 @@ public class SonidosVelocidadModel {
     private Long id;
 
     /**
-     *Kilometer per hour of speed
+     * Kilometros por hora de la velocidad (Debe ser la cantidad de kilometros que el audio emite)
      */
     private String nombre;
 
     /**
-     * Sound related to a particular speed.
+     * URL del sonido que se emitira
      */
     private String sonidoVelocidad;
 
     /**
-     * Code representing the speed.
+     * Codigo del sonido que se usa para reproducir el sondio en el dispositivo
      */
     private Integer codvel;
 }

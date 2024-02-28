@@ -6,10 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class represents the model of a country (Pais) in the application.
- * Contains information about the "Paises" table, including its identifier and name.
+ * Esta clase es un modelo que representa una pais en la aplicación.
+ * Se usa para asociarlo en rutas de la empresa
  */
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Paises")
 public class PaisesModel {
     /**
-     * Unique identifier for the country record.
+     * Identificador unico para cada pais, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +24,7 @@ public class PaisesModel {
     private Long id;
 
     /**
-     * Unique identifier for the country record.
+     * Nombre del pais
      */
     private String nombre;
 }

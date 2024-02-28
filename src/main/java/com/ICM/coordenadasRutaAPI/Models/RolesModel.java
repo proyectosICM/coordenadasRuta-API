@@ -6,8 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class represents the model of a role (Rol) in the application.
- * Contains information about the "Roles" table, including its identifier and name.
+ * Esta clase es un modelo que representa un rol en la aplicación.
+ * Se usa para determinar el nievel de permisos de un usuario
  */
 @Data
 @NoArgsConstructor
@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Roles")
 public class RolesModel {
     /**
-     * Unique identifier for the role record.
+     * Identificador unico para cada rol, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class RolesModel {
     private Long id;
 
     /**
-     * Type of role.
+     * Tipo de rol que influye en los permisos dentro de la aplicacion.
      */
     private String nombre;
 }

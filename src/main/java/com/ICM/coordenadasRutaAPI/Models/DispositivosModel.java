@@ -6,9 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * This class represents the model of a device (Dispositivo) in the application.
- * Contains information about the "Dispositivos" table, including its identifier, name,
- * associated route, and associated company.
+ * Esta clase es un modelo que representa un dispositivo en la aplicación.
+ * Continiene informacion acerca de los mismas y sus propiedad asignadas
  */
 @Entity
 @Data
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "Dispositivos")
 public class DispositivosModel {
     /**
-     * Unique identifier for the device record.
+     * Identificador unico para cada dispositivo, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,31 +24,34 @@ public class DispositivosModel {
     private Long id;
 
     /**
-     * Code name of the device.
+     * nombre en codigo del dispositivo
      */
     private String nombre;
 
     /**
-     * Speed information for the device.
+     * Informacion de velocidad relevante para el dispositivo
      */
     private Integer velocidad;
 
     /**
-     * Volume information for the device.
+     * Informacion del volumen para el dispositivo
      */
     private Integer volumen;
 
+    /**
+     * Estado del dispositivo para determidar si esta activo o no
+     */
     private Boolean estado;
 
     /**
-     * The route (RutaModel) associated with this device.
+     * Ruta a la que el dispositivo esta asociado
      */
     @ManyToOne
     @JoinColumn(name = "rutas", referencedColumnName = "id", nullable = true)
     private RutasModel rutasModel;
 
     /**
-     * The company (empresa) associated with this device.
+     * Empresa dueña del dispositivo
      */
     @ManyToOne
     @JoinColumn(name = "empresa", referencedColumnName = "id", nullable = false)

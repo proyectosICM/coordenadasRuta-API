@@ -5,8 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 /**
- * This class represents the model of a signal type (Tipo de Señal) in the application.
- * Contains information about the "tipoSenal" table, including its identifier and name.
+ * Esta clase es un modelo que representa un tipo de señal en la aplicacion
+ * Se usa para luego filtrar las señales por tipo en la aplicacion
  */
 @Data
 @NoArgsConstructor
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "tipoSenal")
 public class TipoSModel {
     /**
-     * Unique identifier for the signal type record.
+     * Identificador unico para cada tipo de señal, autogenerado automadicamente
      */
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,7 +23,7 @@ public class TipoSModel {
     private Long id;
 
     /**
-     * Name of the signal type.
+     * Nombre del tipo de señal, usado para realizar filtros de las geocercas
      */
     private String nombre;
 }
