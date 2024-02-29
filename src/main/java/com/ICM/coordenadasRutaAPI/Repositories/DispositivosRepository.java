@@ -8,42 +8,42 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 /**
- * Repository interface for managing devices (DispositivosModel) in the application.
+ * Interfaz del repositorio para la gestión de dispositivos en la aplicación.
  */
 @Repository
 public interface DispositivosRepository extends JpaRepository<DispositivosModel, Long> {
     /**
-     * Find a device by its associated route ID.
+     * Busca un dispositivo por su ID de ruta asociada.
      *
-     * @param rutasModelId The ID of the route to search devices for.
-     * @return An optional containing the device associated with the given route ID, if present.
+     * @param rutaId El id de la ruta para buscar dispositivos.
+     * @return Opcional que contiene la informacion del dispositivo
      */
-    Optional<DispositivosModel> findByRutasModelId(Long rutasModelId);
+    Optional<DispositivosModel> findByRutasModelId(Long rutaId);
 
     /**
-     * Find a device by its name and associated company ID.
+     * Busca un dispositivo por su nombre y el ID de empresa asociado.
      *
-     * @param nombre         The name of the device to search for.
-     * @param empresaModelId The ID of the company associated with the device.
-     * @return An optional containing the device with the given name and associated company ID, if present.
+     * @param nombre El nombre del dispositivo a buscar.
+     * @param empresaId El ID de la empresa asociada al dispositivo.
+     * @return Un opcional que contiene el dispositivo con el nombre de pila y el ID de la empresa asociada, si está presente.
      */
-    Optional<DispositivosModel> findByNombreAndEmpresasModelId(String nombre, Long empresaModelId);
+    Optional<DispositivosModel> findByNombreAndEmpresasModelId(String nombre, Long empresaId);
 
     /**
-     * Find a device by its name.
+     * Busca un dispositivo por su nombre.
      *
-     * @param nombre The name of the device to search for.
-     * @return An optional containing the device with the given name, if present.
+     * @param nombre El nombre del dispositivo a buscar.
+     * @return Un opcional que contiene el dispositivo con el nombre de pila, si está presente.
      */
     Optional<DispositivosModel> findByNombre(String nombre);
 
     /**
-     * Retrieves a paginated list of devices associated with a specific company and in a given state.
+     * Obtine una lista paginada de dispositivos asociados con una empresa específica y en un estado determinado.
      *
-     * @param empresaModel The company for which to retrieve devices.
-     * @param estado       The state of the devices to filter.
-     * @param pageable     The pageable information for pagination.
-     * @return Page of DispositivosModel objects associated with the specified company and state.
+     * @param empresaId el id de la empresa para la que buscar dispositivos.
+     * @param estado El estado de los dispositivos a filtrar.
+     * @param pageable La información de la paginación.
+     * @return Página de objetos DispositivosModel asociados a la empresa y estado especificados.
      */
-    Page<DispositivosModel> findByEmpresasModelIdAndEstado(Long empresaModel, Boolean estado, Pageable pageable);
+    Page<DispositivosModel> findByEmpresasModelIdAndEstado(Long empresaId, Boolean estado, Pageable pageable);
 }

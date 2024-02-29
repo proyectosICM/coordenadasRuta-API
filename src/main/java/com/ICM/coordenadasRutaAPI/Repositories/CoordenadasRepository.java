@@ -10,18 +10,18 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * Interfaz del repositorio para la gestión de coordenadas (CoordenadasModel) en la aplicación.
+ * Interfaz del repositorio para la gestión de coordenadas en la aplicación.
  */
 @Repository
 public interface CoordenadasRepository extends JpaRepository<CoordenadasModel, Long> {
    /**
-    * Buscar coordenadas por ruta asociada.
+    * Busca coordenadas por ruta asociada.
     *
-    * @param ruta El id de la ruta para buscar coordenadas.
+    * @param rutaId El id de la ruta para buscar coordenadas.
     * @param pageable La información de paginación.
     * @return Una página de coordenadas asociadas con la ruta dada.
     */
-   Page<CoordenadasModel> findByRutasModelId(Long ruta, Pageable pageable);
+   Page<CoordenadasModel> findByRutasModelId(Long rutaId, Pageable pageable);
 
    /**
     * Buscar coordenadas por ruta asociada.
@@ -34,16 +34,16 @@ public interface CoordenadasRepository extends JpaRepository<CoordenadasModel, L
    /**
     * Buscar coordenadas por ID de ruta asociada.
     *
-    * @param rutasModelId El ID de la ruta para buscar coordenadas.
+    * @param rutaId El id de la ruta para buscar coordenadas.
     * @return Una lista de coordenadas asociadas con el ID de ruta dado.
     */
-   List<CoordenadasModel> findByRutasModelId(Long rutasModelId);
+   List<CoordenadasModel> findByRutasModelId(Long rutaId);
 
    /**
     * Cuenta el número de coordenadas asociadas a una ruta.
     *
-    * @param rutaid El id de la ruta para contar las coordenadas.
+    * @param rutaId El id de la ruta para contar las coordenadas.
     * @return El recuento de coordenadas asociadas con la ruta dada.
     */
-   Long countByRutasModelId(Long rutaid);
+   Long countByRutasModelId(Long rutaId);
 }
