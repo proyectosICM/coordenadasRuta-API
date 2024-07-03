@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "tipoSenal")
+@Table(name = "tiposenal")
 public class TipoSModel {
     /**
      * Identificador unico para cada tipo de señal, autogenerado automadicamente
