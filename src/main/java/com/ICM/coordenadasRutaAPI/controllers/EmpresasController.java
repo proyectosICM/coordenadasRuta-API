@@ -3,6 +3,9 @@ package com.ICM.coordenadasRutaAPI.controllers;
 import com.ICM.coordenadasRutaAPI.models.EmpresasModel;
 import com.ICM.coordenadasRutaAPI.services.EmpresasService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +47,11 @@ public class EmpresasController {
     @GetMapping
     public List<EmpresasModel> getAllCompanies (){
         return empresasService.getAllCompanies();
+    }
+
+    @GetMapping("/page")
+    public Page<EmpresasModel> getAllCompanies(@PageableDefault(size = 10) Pageable pageable){
+        return empresasService.getAllCompanies(pageable);
     }
 
     @GetMapping("/{id}")

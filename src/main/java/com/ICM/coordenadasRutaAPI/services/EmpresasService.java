@@ -6,6 +6,8 @@ import com.ICM.coordenadasRutaAPI.repositories.EmpresasRepository;
 import com.ICM.coordenadasRutaAPI.repositories.RutasRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,6 +50,10 @@ public class EmpresasService {
 
     public List<EmpresasModel> getAllCompanies(){
         return empresasRepository.findAll();
+    }
+
+    public Page<EmpresasModel> getAllCompanies(Pageable pageable){
+        return empresasRepository.findAll(pageable);
     }
 
     public Optional<EmpresasModel> getCompanyById(Long id){
