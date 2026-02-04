@@ -45,7 +45,7 @@ public interface RutasRepository extends JpaRepository<RutasModel, Long> {
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = """
-        UPDATE Ruta
+        UPDATE ruta
         SET empresa = :targetId,
             nomruta = CASE
                 WHEN nomruta LIKE 'RutaEliminada-%' THEN nomruta
