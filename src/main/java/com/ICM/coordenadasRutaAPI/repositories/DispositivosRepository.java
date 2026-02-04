@@ -52,7 +52,7 @@ public interface DispositivosRepository extends JpaRepository<DispositivosModel,
 
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Query(value = """
-        UPDATE Dispositivos
+        UPDATE dispositivos
         SET empresa = :targetId,
             nombre = CASE
                 WHEN nombre LIKE 'reten-%' THEN nombre
