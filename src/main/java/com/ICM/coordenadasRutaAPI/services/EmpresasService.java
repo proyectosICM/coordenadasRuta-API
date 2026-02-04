@@ -1,7 +1,10 @@
 package com.ICM.coordenadasRutaAPI.services;
 
 import com.ICM.coordenadasRutaAPI.models.EmpresasModel;
+import com.ICM.coordenadasRutaAPI.repositories.DispositivosRepository;
 import com.ICM.coordenadasRutaAPI.repositories.EmpresasRepository;
+import com.ICM.coordenadasRutaAPI.repositories.RutasRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,12 @@ import java.util.Optional;
 public class EmpresasService {
     @Autowired
     private EmpresasRepository empresasRepository;
+
+    @Autowired
+    private RutasRepository rutasRepository;
+
+    @Autowired
+    private DispositivosRepository dispositivosRepository;
 
     /**
      * Authenticates a company with given credentials.
@@ -68,8 +77,23 @@ public class EmpresasService {
         return null;
     }
 
+    @Transactional
     public boolean deleteCompany(Long id) {
+        if (id == null) return false;
+
+        if (id.equals(1L)) {
+            throw new IllegalArgumentException("No se puede eliminar la empresa superusuario (id=1).");
+        }
+
         if (!empresasRepository.existsById(id)) return false;
+
+        if (!empresasRepository.existsById(1L)) {
+            throw new IllegalStateException("No existe la empresa superusuario (id=1).");
+        }
+
+        rutasRepository.transferirRutasAEmpresa1(id, 1L);
+        dispositivosRepository.transferirDispositivosAEmpresa1(id, 1L);
+
         empresasRepository.deleteById(id);
         return true;
     }

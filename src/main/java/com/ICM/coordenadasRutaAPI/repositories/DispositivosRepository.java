@@ -4,6 +4,9 @@ import com.ICM.coordenadasRutaAPI.models.DispositivosModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
@@ -46,4 +49,16 @@ public interface DispositivosRepository extends JpaRepository<DispositivosModel,
      * @return Página de objetos DispositivosModel asociados a la empresa y estado especificados.
      */
     Page<DispositivosModel> findByEmpresasModelIdAndEstado(Long empresaId, Boolean estado, Pageable pageable);
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query(value = """
+        UPDATE Dispositivos
+        SET empresa = :targetId,
+            nombre = CASE
+                WHEN nombre LIKE 'reten-%' THEN nombre
+                ELSE CONCAT('reten-', nombre)
+            END
+        WHERE empresa = :fromId
+        """, nativeQuery = true)
+    int transferirDispositivosAEmpresa1(@Param("fromId") Long fromId, @Param("targetId") Long targetId);
 }

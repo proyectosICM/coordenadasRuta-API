@@ -5,6 +5,9 @@ import com.ICM.coordenadasRutaAPI.models.RutasModel;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -38,4 +41,17 @@ public interface RutasRepository extends JpaRepository<RutasModel, Long> {
      * @return A list of routes associated with the given company ID and status.
      */
     List<RutasModel> findByEmpresasModelIdAndEstado(Long idempresa, Boolean estado);
+
+
+    @Modifying(clearAutomatically = true, flushAutomatically = true)
+    @Query(value = """
+        UPDATE Ruta
+        SET empresa = :targetId,
+            nomruta = CASE
+                WHEN nomruta LIKE 'RutaEliminada-%' THEN nomruta
+                ELSE CONCAT('RutaEliminada- ', nomruta)
+            END
+        WHERE empresa = :fromId
+        """, nativeQuery = true)
+    int transferirRutasAEmpresa1(@Param("fromId") Long fromId, @Param("targetId") Long targetId);
 }
