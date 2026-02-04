@@ -20,7 +20,7 @@ public class EmpresasController {
     public ResponseEntity<EmpresasModel> authenticateCompany(@RequestBody EmpresasModel empresasModel){
         EmpresasModel login = empresasService.authenticateCompany(empresasModel);
         if (login!=null){
-            return new ResponseEntity<>(login, HttpStatus.CREATED);
+            return new ResponseEntity<>(login, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
@@ -69,8 +69,9 @@ public class EmpresasController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<EmpresasModel> deleteCompany(@PathVariable Long id){
-        empresasService.deleteCompany(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public ResponseEntity<Void> deleteCompany(@PathVariable Long id) {
+        boolean deleted = empresasService.deleteCompany(id);
+        return deleted ? ResponseEntity.noContent().build()
+                : ResponseEntity.notFound().build();
     }
 }

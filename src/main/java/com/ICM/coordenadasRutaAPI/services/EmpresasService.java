@@ -61,12 +61,16 @@ public class EmpresasService {
         if(existing.isPresent()){
             EmpresasModel empresa = existing.get();
             empresa.setNombre(empresasModel.getNombre());
+            empresa.setUsuario(empresasModel.getUsuario());
+            empresa.setPassword(empresasModel.getPassword());
             return empresasRepository.save(empresa);
         }
         return null;
     }
 
-    public void deleteCompany(Long id){
+    public boolean deleteCompany(Long id) {
+        if (!empresasRepository.existsById(id)) return false;
         empresasRepository.deleteById(id);
+        return true;
     }
 }
