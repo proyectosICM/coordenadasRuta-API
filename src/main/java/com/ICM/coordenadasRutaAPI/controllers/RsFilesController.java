@@ -42,7 +42,7 @@ public class RsFilesController {
                 .body(res);
     }
 
-    @GetMapping("/audios/{filename:.+}")
+    @GetMapping("/audios-rs/{filename:.+}")
     public ResponseEntity<Resource> getAudio(@PathVariable String filename) throws IOException {
         if (isBadName(filename)) return ResponseEntity.badRequest().build();
 
