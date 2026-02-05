@@ -1,11 +1,15 @@
 package com.ICM.coordenadasRutaAPI.services;
 
 import com.ICM.coordenadasRutaAPI.models.EmpresasModel;
+import com.ICM.coordenadasRutaAPI.models.PaisesModel;
+import com.ICM.coordenadasRutaAPI.models.RutasModel;
 import com.ICM.coordenadasRutaAPI.repositories.DispositivosRepository;
 import com.ICM.coordenadasRutaAPI.repositories.EmpresasRepository;
+import com.ICM.coordenadasRutaAPI.repositories.PaisesRepository;
 import com.ICM.coordenadasRutaAPI.repositories.RutasRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,6 +27,23 @@ public class EmpresasService {
 
     @Autowired
     private DispositivosRepository dispositivosRepository;
+
+    @Autowired
+    private PaisesRepository paisesRepository;
+
+    /**
+     * Pais por defecto para la ruta base al crear empresa.
+     * Cambia esto en application.properties si tu Perú no es ID=1:
+     * app.rutas.defaultPaisId=2
+     */
+    @Value("${app.rutas.defaultPaisId:1}")
+    private Long defaultPaisId;
+
+    /**
+     * Sufijo para la ruta base
+     */
+    @Value("${app.rutas.baseSuffix:-ruta-base}")
+    private String baseRouteSuffix;
 
     /**
      * Authenticates a company with given credentials.
@@ -67,8 +88,44 @@ public class EmpresasService {
      * - deleteCompany: Deletes a company based on its ID.
      */
 
+    @Transactional
     public EmpresasModel saveCompany(EmpresasModel empresasModel) {
-        return empresasRepository.save(empresasModel);
+        if (empresasModel == null) throw new IllegalArgumentException("Empresa inválida");
+        boolean isNew = (empresasModel.getId() == null);
+
+        // guarda empresa
+        EmpresasModel saved = empresasRepository.save(empresasModel);
+
+        // solo en creación real
+        if (isNew) {
+            String empresaNombre = (saved.getNombre() == null) ? "" : saved.getNombre().trim();
+            if (empresaNombre.isEmpty()) {
+                throw new IllegalArgumentException("El nombre de la empresa es obligatorio para crear ruta base");
+            }
+
+            String baseRouteName = empresaNombre + baseRouteSuffix; // ej: "ACME-ruta-base"
+
+            boolean exists = rutasRepository.existsByEmpresasModelIdAndNomruta(saved.getId(), baseRouteName);
+            if (!exists) {
+                PaisesModel pais = paisesRepository.findById(defaultPaisId)
+                        .orElseThrow(() -> new IllegalStateException(
+                                "No existe el país por defecto (app.rutas.defaultPaisId=" + defaultPaisId + ")"
+                        ));
+
+                RutasModel rutaBase = new RutasModel();
+                rutaBase.setId(null);
+                rutaBase.setNomruta(baseRouteName);
+                rutaBase.setEstado(true);
+                rutaBase.setEmpresasModel(saved);
+                rutaBase.setPaisesModel(pais);
+                rutaBase.setDiadeshabilitacion(null);
+                rutaBase.setDiaeliminacion(null);
+
+                rutasRepository.save(rutaBase);
+            }
+        }
+
+        return saved;
     }
 
     public EmpresasModel editCompany(Long id, EmpresasModel empresasModel){

@@ -54,4 +54,6 @@ public interface RutasRepository extends JpaRepository<RutasModel, Long> {
         WHERE empresa = :fromId
         """, nativeQuery = true)
     int transferirRutasAEmpresa1(@Param("fromId") Long fromId, @Param("targetId") Long targetId);
+
+    boolean existsByEmpresasModelIdAndNomruta(Long empresaId, String nomruta);
 }
