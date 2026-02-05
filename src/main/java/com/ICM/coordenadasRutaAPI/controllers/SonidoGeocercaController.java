@@ -112,17 +112,11 @@ public class SonidoGeocercaController {
             @RequestPart(value = "audio", required = false) MultipartFile audio
     ) {
         try {
-            if (data.getNombre() == null || data.getNombre().isBlank()) {
-                return ResponseEntity.badRequest().body("nombre es obligatorio");
-            }
-            if (data.getTipoSId() == null || data.getTipoSId() <= 0) {
-                return ResponseEntity.badRequest().body("tipoSId es obligatorio");
-            }
-            if (data.getPaisId() == null || data.getPaisId() <= 0) {
-                return ResponseEntity.badRequest().body("paisId es obligatorio");
-            }
+            if (data.getNombre() == null || data.getNombre().isBlank()) return ResponseEntity.badRequest().body("nombre es obligatorio");
+            if (data.getTipoSId() == null || data.getTipoSId() <= 0) return ResponseEntity.badRequest().body("tipoSId es obligatorio");
+            if (data.getPaisId() == null || data.getPaisId() <= 0) return ResponseEntity.badRequest().body("paisId es obligatorio");
+            if (data.getCodsonido() == null) return ResponseEntity.badRequest().body("codsonido es obligatorio");
 
-            // armar entity
             SonidosGeocercaModel geo = new SonidosGeocercaModel();
             geo.setId(null);
             geo.setNombre(data.getNombre());
@@ -137,23 +131,20 @@ public class SonidoGeocercaController {
             paisRef.setId(data.getPaisId());
             geo.setPaisesModel(paisRef);
 
-            // Si no suben archivo, se respeta URL manual (opcional)
-            geo.setUrlImagen(data.getUrlImagen());
-            geo.setUrlSonido(data.getUrlSonido());
+            // ✅ URLs determinísticas (DB)
+            geo.setUrlImagen(rsFileStorageService.buildImageUrl(data.getNombre()));
+            geo.setUrlSonido(rsFileStorageService.buildAudioUrl(data.getCodsonido()));
 
-            // subir archivos si vienen
+            // ✅ si vienen archivos, se guardan y se reemplaza (si existía)
             if (imagen != null && !imagen.isEmpty()) {
                 String paisNombre = paisesRepository.findById(data.getPaisId())
                         .map(PaisesModel::getNombre)
                         .orElse("SIN_PAIS");
-
-                String urlImg = rsFileStorageService.storeImage(imagen, paisNombre);
-                geo.setUrlImagen(urlImg);
+                geo.setUrlImagen(rsFileStorageService.storeImageAsJpg(imagen, paisNombre, data.getNombre()));
             }
 
             if (audio != null && !audio.isEmpty()) {
-                String urlAud = rsFileStorageService.storeAudio(audio);
-                geo.setUrlSonido(urlAud);
+                geo.setUrlSonido(rsFileStorageService.storeAudioAsMp3(audio, data.getCodsonido()));
             }
 
             SonidosGeocercaModel created = sonidosGeocercaService.Create(geo);
@@ -181,8 +172,17 @@ public class SonidoGeocercaController {
             SonidosGeocercaModel current = sonidosGeocercaService.GetById(id)
                     .orElseThrow(() -> new RuntimeException("Geocerca no encontrada ID=" + id));
 
-            // actualizar campos
-            if (data.getNombre() != null) current.setNombre(data.getNombre());
+            // Guardar “antes” para renombrar si hace falta
+            String oldNombre = current.getNombre();
+            Integer oldCod = current.getCodsonido();
+            Long oldPaisId = current.getPaisesModel() != null ? current.getPaisesModel().getId() : null;
+
+            String oldPaisNombre = (oldPaisId != null)
+                    ? paisesRepository.findById(oldPaisId).map(PaisesModel::getNombre).orElse("SIN_PAIS")
+                    : "SIN_PAIS";
+
+            // aplicar cambios
+            if (data.getNombre() != null && !data.getNombre().isBlank()) current.setNombre(data.getNombre());
 
             if (data.getTipoSId() != null && data.getTipoSId() > 0) {
                 TipoSModel tipo = new TipoSModel();
@@ -190,38 +190,54 @@ public class SonidoGeocercaController {
                 current.setTipoSModel(tipo);
             }
 
-            Long paisIdFinal = null;
+            Long newPaisId = oldPaisId;
             if (data.getPaisId() != null && data.getPaisId() > 0) {
                 PaisesModel paisRef = new PaisesModel();
                 paisRef.setId(data.getPaisId());
                 current.setPaisesModel(paisRef);
-                paisIdFinal = data.getPaisId();
-            } else if (current.getPaisesModel() != null) {
-                paisIdFinal = current.getPaisesModel().getId();
+                newPaisId = data.getPaisId();
             }
 
             if (data.getCodsonido() != null) current.setCodsonido(data.getCodsonido());
             if (data.getDetalle() != null) current.setDetalle(data.getDetalle());
 
-            // si NO suben archivo pero mandan url manual, opcional
-            if (data.getUrlImagen() != null) current.setUrlImagen(data.getUrlImagen());
-            if (data.getUrlSonido() != null) current.setUrlSonido(data.getUrlSonido());
+            // nombres finales
+            String newNombre = current.getNombre();
+            Integer newCod = current.getCodsonido();
 
-            // subir archivos si vienen (pisan la URL)
+            if (newCod == null) {
+                return ResponseEntity.badRequest().body("codsonido es obligatorio");
+            }
+
+            String newPaisNombre = (newPaisId != null)
+                    ? paisesRepository.findById(newPaisId).map(PaisesModel::getNombre).orElse("SIN_PAIS")
+                    : "SIN_PAIS";
+
+            // ✅ si NO suben imagen, pero cambió nombre/pais: renombrar/mover si existía
+            boolean changedNombre = oldNombre != null && !oldNombre.equals(newNombre);
+            boolean changedPais = (oldPaisId != null && newPaisId != null && !oldPaisId.equals(newPaisId));
+
+            if ((imagen == null || imagen.isEmpty()) && (changedNombre || changedPais)) {
+                rsFileStorageService.moveImageIfExists(oldPaisNombre, oldNombre, newPaisNombre, newNombre);
+            }
+
+            // ✅ si NO suben audio, pero cambió codsonido: renombrar si existía
+            boolean changedCod = (oldCod != null && !oldCod.equals(newCod));
+            if ((audio == null || audio.isEmpty()) && changedCod) {
+                rsFileStorageService.moveAudioIfExists(oldCod, newCod);
+            }
+
+            // ✅ URLs determinísticas (DB) siempre
+            current.setUrlImagen(rsFileStorageService.buildImageUrl(newNombre));
+            current.setUrlSonido(rsFileStorageService.buildAudioUrl(newCod));
+
+            // ✅ si viene archivo, guarda y reemplaza
             if (imagen != null && !imagen.isEmpty()) {
-                String paisNombre = "SIN_PAIS";
-                if (paisIdFinal != null) {
-                    paisNombre = paisesRepository.findById(paisIdFinal)
-                            .map(PaisesModel::getNombre)
-                            .orElse("SIN_PAIS");
-                }
-                String urlImg = rsFileStorageService.storeImage(imagen, paisNombre);
-                current.setUrlImagen(urlImg);
+                current.setUrlImagen(rsFileStorageService.storeImageAsJpg(imagen, newPaisNombre, newNombre));
             }
 
             if (audio != null && !audio.isEmpty()) {
-                String urlAud = rsFileStorageService.storeAudio(audio);
-                current.setUrlSonido(urlAud);
+                current.setUrlSonido(rsFileStorageService.storeAudioAsMp3(audio, newCod));
             }
 
             SonidosGeocercaModel updated = sonidosGeocercaService.Update(id, current);
@@ -230,7 +246,7 @@ public class SonidoGeocercaController {
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error subiendo archivos: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error de archivos: " + e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error editando geocerca: " + e.getMessage());
         }
