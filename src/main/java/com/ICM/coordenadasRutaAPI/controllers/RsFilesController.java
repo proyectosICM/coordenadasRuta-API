@@ -25,7 +25,7 @@ public class RsFilesController {
         this.audiosBaseDir = Paths.get(audioDir);
     }
 
-    @GetMapping("/images/{filename:.+}")
+    @GetMapping("/images-rs/{filename:.+}")
     public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
         if (isBadName(filename)) return ResponseEntity.badRequest().build();
 
