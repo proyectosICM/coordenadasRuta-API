@@ -4,6 +4,8 @@ import com.ICM.coordenadasRutaAPI.models.DispositivosModel;
 import com.ICM.coordenadasRutaAPI.services.DispositivosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +22,13 @@ public class DispositivosController {
     @GetMapping
     public List<DispositivosModel> getAllDispositivos (){
         return dispositivosService.getAllDispositivos();
+    }
+
+    @GetMapping("/page")
+    public Page<DispositivosModel> getAllDispositivosPage(
+            @PageableDefault(size = 10) Pageable pageable
+    ){
+        return dispositivosService.getAllDispositivos(pageable);
     }
 
     @GetMapping("/{id}")
@@ -50,6 +59,15 @@ public class DispositivosController {
             @RequestParam(defaultValue = "10") int size) {
         Page<DispositivosModel> dispositivos = dispositivosService.findByEmpresaIdAndEstado(empresaId, estado, page, size);
         return new ResponseEntity<>(dispositivos, HttpStatus.OK);
+    }
+
+    @GetMapping("/empresax/page")
+    public Page<DispositivosModel> findByEmpresaAndEstadoPageable(
+            @RequestParam(name = "empresaId") Long empresaId,
+            @RequestParam(name = "estado") Boolean estado,
+            @PageableDefault(size = 10) Pageable pageable
+    ){
+        return dispositivosService.findByEmpresaIdAndEstado(empresaId, estado, pageable);
     }
 
     @PostMapping

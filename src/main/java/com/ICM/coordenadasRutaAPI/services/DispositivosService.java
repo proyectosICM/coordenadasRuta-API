@@ -5,6 +5,7 @@ import com.ICM.coordenadasRutaAPI.repositories.DispositivosRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +18,10 @@ public class DispositivosService {
 
     public List<DispositivosModel> getAllDispositivos() { return dispositivosRepository.findAll();}
 
+    public Page<DispositivosModel> getAllDispositivos(Pageable pageable) {
+        return dispositivosRepository.findAll(pageable);
+    }
+
     public Optional<DispositivosModel> getDispositivoById(Long id){
         return dispositivosRepository.findById(id);
     }
@@ -27,6 +32,10 @@ public class DispositivosService {
 
     public Page<DispositivosModel> findByEmpresaIdAndEstado(Long empresa, Boolean estado, int page, int size) {
         PageRequest pageable = PageRequest.of(page, size);
+        return dispositivosRepository.findByEmpresasModelIdAndEstado(empresa, estado, pageable);
+    }
+
+    public Page<DispositivosModel> findByEmpresaIdAndEstado(Long empresa, Boolean estado, Pageable pageable) {
         return dispositivosRepository.findByEmpresasModelIdAndEstado(empresa, estado, pageable);
     }
 
