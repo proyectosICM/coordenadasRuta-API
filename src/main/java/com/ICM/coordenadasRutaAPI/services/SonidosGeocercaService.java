@@ -48,4 +48,28 @@ public class SonidosGeocercaService {
         return sonidosGeocercaRepository.findByPaisesModelAndTipoSModel(paisModel, tipoSModel);
     }
 
+    public SonidosGeocercaModel Create(SonidosGeocercaModel geo) {
+        geo.setId(null); // por si viene algo
+        return sonidosGeocercaRepository.save(geo);
+    }
+
+    public SonidosGeocercaModel Update(Long id, SonidosGeocercaModel geo) {
+        SonidosGeocercaModel current = sonidosGeocercaRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Geocerca no encontrada ID=" + id));
+
+        current.setNombre(geo.getNombre());
+        current.setTipoSModel(geo.getTipoSModel());
+        current.setPaisesModel(geo.getPaisesModel());
+        current.setUrlImagen(geo.getUrlImagen());
+        current.setUrlSonido(geo.getUrlSonido());
+        current.setCodsonido(geo.getCodsonido());
+        current.setDetalle(geo.getDetalle());
+
+        return sonidosGeocercaRepository.save(current);
+    }
+
+    public void Delete(Long id) {
+        sonidosGeocercaRepository.deleteById(id);
+    }
+
 }
