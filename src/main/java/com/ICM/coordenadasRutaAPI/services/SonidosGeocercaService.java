@@ -3,6 +3,8 @@ package com.ICM.coordenadasRutaAPI.services;
 import com.ICM.coordenadasRutaAPI.models.*;
 import com.ICM.coordenadasRutaAPI.repositories.SonidosGeocercaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +17,10 @@ public class SonidosGeocercaService {
 
     public List<SonidosGeocercaModel> GetAll() {
         return sonidosGeocercaRepository.findAll();
+    }
+
+    public Page<SonidosGeocercaModel> getPage(int page, int size) {
+        return sonidosGeocercaRepository.findAll(PageRequest.of(page, size));
     }
 
     public Optional<SonidosGeocercaModel> GetById(Long id) {
